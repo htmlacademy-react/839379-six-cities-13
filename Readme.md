@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Artem Minaliev](https://up.htmlacademy.ru/react/13/user/839379).
-* Наставник: `Неизвестно`.
+* Наставник: [Arthur Litovko](https://github.com/baileys-li).
 
 ---
 
