@@ -5,9 +5,9 @@ type AppProps = {
 }
 
 function App({offersCount}: AppProps): JSX.Element {
-  return (
-    <MainPage offersCount={offersCount}/>
-  );
+	return (
+		<MainPage offersCount={offersCount}/>
+	);
 }
 
 export default App;
