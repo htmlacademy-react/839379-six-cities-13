@@ -1,4 +1,5 @@
 import PlaceCard from './place-card';
+import {offers} from '../../data/offers';
 
 type MainPageProps = {
   offersCount: number;
@@ -115,11 +116,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
 								</ul>
 							</form>
 							<div className="cities__places-list places__list tabs__content">
-								<PlaceCard />
-								<PlaceCard />
-								<PlaceCard />
-								<PlaceCard />
-								<PlaceCard />
+								{offers.map((it) => <PlaceCard key={it.id} price={it.price} title={it.title} type={it.type} image={it.previewImage} premium={it.isPremium} favorite={it.isFavorite} rating={it.rating}/>)}
 							</div>
 						</section>
 						<div className="cities__right-section">
