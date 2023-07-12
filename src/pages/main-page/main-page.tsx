@@ -119,7 +119,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
 								</ul>
 							</form>
 							<div className="cities__places-list places__list tabs__content">
-								{offers.map((it) => <PlaceCard key={it.id} price={it.price} title={it.title} type={it.type} image={it.previewImage} premium={it.isPremium} favorite={it.isFavorite} rating={it.rating}/>)}
+								{offers.map((offer) => <PlaceCard key={offer.id} price={offer.price} title={offer.title} type={offer.type} image={offer.previewImage} premium={offer.isPremium} favorite={offer.isFavorite} rating={offer.rating}/>)}
 							</div>
 						</section>
 						<div className="cities__right-section">
