@@ -1,4 +1,7 @@
 import PlaceCard from './place-card';
+import {offers} from '../../data/offers';
+import {Link} from 'react-router-dom';
+import {Helmet} from 'react-helmet-async';
 
 type MainPageProps = {
   offersCount: number;
@@ -7,6 +10,7 @@ type MainPageProps = {
 function MainPage({offersCount}: MainPageProps): JSX.Element {
 	return (
 		<div className="page page--gray page--main">
+			<Helmet><title>6 cities. Main</title></Helmet>
 			<header className="header">
 				<div className="container">
 					<div className="header__wrapper">
@@ -36,9 +40,9 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
 									</a>
 								</li>
 								<li className="header__nav-item">
-									<a className="header__nav-link" href="#">
+									<Link className="header__nav-link" to="/login">
 										<span className="header__signout">Sign out</span>
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</nav>
@@ -115,11 +119,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
 								</ul>
 							</form>
 							<div className="cities__places-list places__list tabs__content">
-								<PlaceCard />
-								<PlaceCard />
-								<PlaceCard />
-								<PlaceCard />
-								<PlaceCard />
+								{offers.map((offer) => <PlaceCard key={offer.id} price={offer.price} title={offer.title} type={offer.type} image={offer.previewImage} premium={offer.isPremium} favorite={offer.isFavorite} rating={offer.rating}/>)}
 							</div>
 						</section>
 						<div className="cities__right-section">
