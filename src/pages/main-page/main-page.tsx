@@ -1,13 +1,14 @@
-import PlaceCard from './place-card';
-import {offers} from '../../data/offers';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet-async';
+import {Place} from '../../types/place';
+import PlaceCardList from '../../components/place-card/place-card-list';
 
 type MainPageProps = {
   offersCount: number;
+	places: Place[];
 }
 
-function MainPage({offersCount}: MainPageProps): JSX.Element {
+function MainPage({offersCount, places}: MainPageProps): JSX.Element {
 	return (
 		<div className="page page--gray page--main">
 			<Helmet><title>6 cities. Main</title></Helmet>
@@ -93,7 +94,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
 							<h2 className="visually-hidden">Places</h2>
 							<b className="places__found">{offersCount} places to stay in Amsterdam</b>
 							<form className="places__sorting" action="#" method="get">
-								<span className="places__sorting-caption">Sort by</span>
+								<span className="places__sorting-caption">Sort by</span>{' '}
 								<span className="places__sorting-type" tabIndex={0}>
                   Popular
 									<svg className="places__sorting-arrow" width={7} height={4}>
@@ -118,9 +119,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
 									</li>
 								</ul>
 							</form>
-							<div className="cities__places-list places__list tabs__content">
-								{offers.map((offer) => <PlaceCard key={offer.id} price={offer.price} title={offer.title} type={offer.type} image={offer.previewImage} premium={offer.isPremium} favorite={offer.isFavorite} rating={offer.rating}/>)}
-							</div>
+							<PlaceCardList places={places}/>
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map" />

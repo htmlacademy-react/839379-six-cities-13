@@ -1,28 +1,6 @@
-type Offer = {
-	id: string;
-	title: string;
-	type: string;
-	price: number;
-	previewImage: string;
-	city: City;
-	location: PointLocation;
-	isFavorite: boolean;
-	isPremium: boolean;
-	rating: number;
-}
+import {Place} from '../types/place';
 
-type City = {
-	name: string;
-	location: PointLocation;
-}
-
-type PointLocation = {
-	latitude: number;
-	longitude: number;
-	zoom: number;
-}
-
-const offers: Offer[] = [
+const places: Place[] = [
 	{
 		id: '3d3a815c-5622-4ccb-8a0d-4bfccf3cea5a',
 		title: 'Amazing and Extremely Central Flat',
@@ -65,7 +43,7 @@ const offers: Offer[] = [
 			longitude: 2.330499,
 			zoom: 16
 		},
-		isFavorite: false,
+		isFavorite: true,
 		isPremium: true,
 		rating: 2
 	},
@@ -76,7 +54,7 @@ const offers: Offer[] = [
 		price: 956,
 		previewImage: 'https://13.design.pages.academy/static/hotel/9.jpg',
 		city: {
-			name: 'Paris',
+			name: 'Brussels',
 			location: {
 				latitude: 48.85661,
 				longitude: 2.351499,
@@ -88,7 +66,7 @@ const offers: Offer[] = [
 			longitude: 2.335499,
 			zoom: 16
 		},
-		isFavorite: false,
+		isFavorite: true,
 		isPremium: false,
 		rating: 4.6
 	},
@@ -99,7 +77,7 @@ const offers: Offer[] = [
 		price: 223,
 		previewImage: 'https://13.design.pages.academy/static/hotel/4.jpg',
 		city: {
-			name: 'Paris',
+			name: 'Hamburg',
 			location: {
 				latitude: 48.85661,
 				longitude: 2.351499,
@@ -111,33 +89,10 @@ const offers: Offer[] = [
 			longitude: 2.358499,
 			zoom: 16
 		},
-		isFavorite: false,
+		isFavorite: true,
 		isPremium: true,
 		rating: 4.1
 	},
-	{
-		id: '181cc632-daa9-484c-959d-19c30b73fcb3',
-		title: 'House in countryside',
-		type: 'hotel',
-		price: 206,
-		previewImage: 'https://13.design.pages.academy/static/hotel/9.jpg',
-		city: {
-			name: 'Paris',
-			location: {
-				latitude: 48.85661,
-				longitude: 2.351499,
-				zoom: 13
-			}
-		},
-		location: {
-			latitude: 48.87561,
-			longitude: 2.375499,
-			zoom: 16
-		},
-		isFavorite: true,
-		isPremium: true,
-		rating: 2.4
-	},
 ];
 
-export {offers};
+export {places};

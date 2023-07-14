@@ -1,25 +1,22 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
+import {Place} from '../../types/place';
 
 type PlaceCardProps = {
-	price: number;
-	title: string;
-	type: string;
-	image: string;
-	premium: boolean;
-	favorite: boolean;
-	rating: number;
+	info: Place;
+	onPlace: (info:Place) => void;
 }
 
-function PlaceCard({price, title, type, image, premium, favorite, rating}:PlaceCardProps): JSX.Element {
+function PlaceCard({info, onPlace}:PlaceCardProps): JSX.Element {
+	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
 	return (
-		<article className="cities__card place-card">
-			{premium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
+		<article onMouseOver={() => onPlace(info)} className="cities__card place-card">
+			{isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
 			<div className="cities__image-wrapper place-card__image-wrapper">
-				<Link to={AppRoute.Offer}>
+				<Link to={`${AppRoute.Offer}/${id}`}>
 					<img
 						className="place-card__image"
-						src={image}
+						src={previewImage}
 						width={260}
 						height={200}
 						alt="Place image"
@@ -33,7 +30,7 @@ function PlaceCard({price, title, type, image, premium, favorite, rating}:PlaceC
 						<span className="place-card__price-text">/&nbsp;night</span>
 					</div>
 					<button
-						className={favorite ? 'place-card__bookmark-button button place-card__bookmark-button--active' : 'place-card__bookmark-button button'}
+						className={isFavorite ? 'place-card__bookmark-button button place-card__bookmark-button--active' : 'place-card__bookmark-button button'}
 						type="button"
 					>
 						<svg
@@ -48,7 +45,7 @@ function PlaceCard({price, title, type, image, premium, favorite, rating}:PlaceC
 				</div>
 				<div className="place-card__rating rating">
 					<div className="place-card__stars rating__stars">
-						<span style={{ width: `${rating * 100 / 5}%` }} />
+						<span style={{ width: `${rating * 20}%` }} />
 						<span className="visually-hidden">Rating</span>
 					</div>
 				</div>
