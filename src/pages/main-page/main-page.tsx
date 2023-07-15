@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet-async';
 import {Place} from '../../types/place';
 import PlaceCardList from '../../components/place-card/place-card-list';
+import { useState } from 'react';
 
 type MainPageProps = {
   offersCount: number;
@@ -9,6 +10,12 @@ type MainPageProps = {
 }
 
 function MainPage({offersCount, places}: MainPageProps): JSX.Element {
+	const [, setActiveCard] = useState('');
+
+	function handleMouseOver(id:string) {
+		setActiveCard(id);
+	}
+
 	return (
 		<div className="page page--gray page--main">
 			<Helmet><title>6 cities. Main</title></Helmet>
@@ -119,7 +126,7 @@ function MainPage({offersCount, places}: MainPageProps): JSX.Element {
 									</li>
 								</ul>
 							</form>
-							<PlaceCardList places={places}/>
+							<PlaceCardList places={places} onPlace={handleMouseOver}/>
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map" />

@@ -2,14 +2,15 @@ import {useState} from 'react';
 import { ChangeEvent } from 'react';
 
 function CommentForm(): JSX.Element {
-	const [formData, setFormData] = useState({
-		rating: '',
-		review: ''
-	});
+	const [, setRating] = useState(0);
+	const [review, setReview] = useState('');
 
-	const handleFormChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		const {value, name} = target;
-		setFormData({...formData, [name]: value});
+	const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+		setRating(Number(target.value));
+	};
+
+	const handleReviewChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
+		setReview(target.value);
 	};
 
 	return (
@@ -19,7 +20,7 @@ function CommentForm(): JSX.Element {
 			</label>
 			<div className="reviews__rating-form form__rating">
 				<input
-					onChange={handleFormChange}
+					onChange={handleRatingChange}
 					className="form__rating-input visually-hidden"
 					name="rating"
 					value={5}
@@ -36,7 +37,7 @@ function CommentForm(): JSX.Element {
 					</svg>
 				</label>
 				<input
-					onChange={handleFormChange}
+					onChange={handleRatingChange}
 					className="form__rating-input visually-hidden"
 					name="rating"
 					value={4}
@@ -53,7 +54,7 @@ function CommentForm(): JSX.Element {
 					</svg>
 				</label>
 				<input
-					onChange={handleFormChange}
+					onChange={handleRatingChange}
 					className="form__rating-input visually-hidden"
 					name="rating"
 					value={3}
@@ -70,7 +71,7 @@ function CommentForm(): JSX.Element {
 					</svg>
 				</label>
 				<input
-					onChange={handleFormChange}
+					onChange={handleRatingChange}
 					className="form__rating-input visually-hidden"
 					name="rating"
 					value={2}
@@ -87,7 +88,7 @@ function CommentForm(): JSX.Element {
 					</svg>
 				</label>
 				<input
-					onChange={handleFormChange}
+					onChange={handleRatingChange}
 					className="form__rating-input visually-hidden"
 					name="rating"
 					value={1}
@@ -105,11 +106,12 @@ function CommentForm(): JSX.Element {
 				</label>
 			</div>
 			<textarea
-				onChange={handleFormChange}
+				onChange={handleReviewChange}
 				className="reviews__textarea form__textarea"
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
+				value={review}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">
