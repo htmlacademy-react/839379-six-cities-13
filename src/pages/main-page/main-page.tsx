@@ -3,6 +3,7 @@ import {Helmet} from 'react-helmet-async';
 import {Place} from '../../types/place';
 import PlaceCardList from '../../components/place-card/place-card-list';
 import { useState } from 'react';
+import Map from '../../components/map/map';
 
 type MainPageProps = {
   offersCount: number;
@@ -129,7 +130,9 @@ function MainPage({offersCount, places}: MainPageProps): JSX.Element {
 							<PlaceCardList places={places} onPlace={handleMouseOver}/>
 						</section>
 						<div className="cities__right-section">
-							<section className="cities__map map" />
+							<section className="cities__map map">
+								<Map city={places[0]} places={places}/>
+							</section>
 						</div>
 					</div>
 				</div>
