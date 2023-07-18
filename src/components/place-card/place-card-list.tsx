@@ -4,12 +4,13 @@ import PlaceCard from './place-card';
 type PlaceCardListProps = {
 	places: Place[];
 	onPlace: (info:string) => void;
+	outPlace: () => void;
 }
 
-function PlaceCardList({places, onPlace}: PlaceCardListProps): JSX.Element {
+function PlaceCardList({places, onPlace, outPlace}: PlaceCardListProps): JSX.Element {
 	return (
 		<div className="cities__places-list places__list tabs__content">
-			{places.map((place) => <PlaceCard key={place.id} info={place} onPlace={onPlace}/>)}
+			{places.map((place) => <PlaceCard key={place.id} info={place} onPlace={onPlace} outPlace={outPlace}/>)}
 		</div>
 	);
 }

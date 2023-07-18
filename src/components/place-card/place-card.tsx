@@ -5,12 +5,13 @@ import {Place} from '../../types/place';
 type PlaceCardProps = {
 	info: Place;
 	onPlace: (info:string) => void;
+	outPlace: () => void;
 }
 
-function PlaceCard({info, onPlace}:PlaceCardProps): JSX.Element {
+function PlaceCard({info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
 	return (
-		<article onMouseOver={() => onPlace(id)} className="cities__card place-card">
+		<article onMouseOver={() => onPlace(id)} onMouseOut={outPlace} className="cities__card place-card">
 			{isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
 			<div className="cities__image-wrapper place-card__image-wrapper">
 				<Link to={`${AppRoute.Offer}/${id}`}>
@@ -50,7 +51,7 @@ function PlaceCard({info, onPlace}:PlaceCardProps): JSX.Element {
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					<Link to={AppRoute.Offer}>{title}</Link>
+					<Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
 				</h2>
 				<p className="place-card__type">{type}</p>
 			</div>

@@ -11,10 +11,15 @@ type MainPageProps = {
 }
 
 function MainPage({offersCount, places}: MainPageProps): JSX.Element {
-	const [, setActiveCard] = useState('');
+	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
 
 	function handleMouseOver(id:string) {
-		setActiveCard(id);
+		const currentPlace = places.find((place) => place.id === id);
+		setActivePlace(currentPlace);
+	}
+
+	function handleMouseOut() {
+		setActivePlace(undefined);
 	}
 
 	return (
@@ -127,11 +132,11 @@ function MainPage({offersCount, places}: MainPageProps): JSX.Element {
 									</li>
 								</ul>
 							</form>
-							<PlaceCardList places={places} onPlace={handleMouseOver}/>
+							<PlaceCardList places={places} onPlace={handleMouseOver} outPlace={handleMouseOut}/>
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map">
-								<Map city={places[0]} places={places}/>
+								<Map city={places[0]} places={places} activePlace={activePlace}/>
 							</section>
 						</div>
 					</div>
