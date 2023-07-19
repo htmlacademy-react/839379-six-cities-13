@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
+import cn from 'classnames';
 
 type PlaceCardProps = {
 	info: Place;
@@ -31,7 +32,10 @@ function PlaceCard({info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 						<span className="place-card__price-text">/&nbsp;night</span>
 					</div>
 					<button
-						className={isFavorite ? 'place-card__bookmark-button button place-card__bookmark-button--active' : 'place-card__bookmark-button button'}
+						className={cn(
+							'place-card__bookmark-button button',
+							{'place-card__bookmark-button--active': isFavorite}
+						)}
 						type="button"
 					>
 						<svg

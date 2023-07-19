@@ -51,7 +51,7 @@ function Map({city, places, activePlace}: MapProps): JSX.Element {
 		}
 	}, [places, map, activePlace]);
 
-	return <div ref ={mapRef} style={{height: '500px'}}></div>;
+	return <div ref ={mapRef} style={{height: '100%'}}></div>;
 }
 
 export default Map;
