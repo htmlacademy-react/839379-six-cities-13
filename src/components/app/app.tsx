@@ -26,7 +26,7 @@ function App({offersCount, places, offer, comments}: AppProps): JSX.Element {
 					<Route path={AppRoute.Main} element={<MainPage offersCount={offersCount} places={places}/>}/>
 					<Route path={AppRoute.Login} element={<LoginPage/>}/>
 					<Route path={AppRoute.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><FavoritePage places={places}/></PrivateRoute>}/>
-					<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offer={offer} comments={comments}/>}/>
+					<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offer={offer} comments={comments} places={places}/>}/>
 					<Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
 				</Routes>
 			</BrowserRouter>

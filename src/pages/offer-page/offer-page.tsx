@@ -3,15 +3,18 @@ import cn from 'classnames';
 import CommentForm from '../../components/form/comment-form';
 import { Offer } from '../../types/offer';
 import { Comments } from '../../types/comments';
+import { Place } from '../../types/place';
 import Header from '../../components/header/header';
 import ReviewList from '../../components/reviews/review-list';
+import Map from '../../components/map/map';
 
 type OfferPageProps = {
 	offer: Offer;
 	comments: Comments;
+	places: Place[];
 }
 
-function OfferPage({offer, comments}: OfferPageProps): JSX.Element {
+function OfferPage({offer, comments, places}: OfferPageProps): JSX.Element {
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offer;
 
 	return (
@@ -108,7 +111,9 @@ function OfferPage({offer, comments}: OfferPageProps): JSX.Element {
 							</section>
 						</div>
 					</div>
-					<section className="offer__map map" />
+					<section className="offer__map map">
+						<Map city={places[0]} places={places.slice(1)}/>
+					</section>
 				</section>
 				<div className="container">
 					<section className="near-places places">
