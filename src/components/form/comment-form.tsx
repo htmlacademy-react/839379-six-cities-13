@@ -3,10 +3,10 @@ import { ChangeEvent } from 'react';
 import RatingField from './rating-field';
 
 function CommentForm(): JSX.Element {
-	const [review, setReview] = useState('');
+	const [comment, setComment] = useState('');
 
 	const handleReviewChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
-		setReview(target.value);
+		setComment(target.value);
 	};
 
 	return (
@@ -21,7 +21,7 @@ function CommentForm(): JSX.Element {
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
-				value={review}
+				value={comment}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">
