@@ -8,7 +8,7 @@ import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 type MapProps = {
 	city: Place;
 	places: Place[];
-	activePlace: Place | undefined;
+	activePlace?: Place | undefined;
 }
 
 const defaultCustomIcon = new Icon({

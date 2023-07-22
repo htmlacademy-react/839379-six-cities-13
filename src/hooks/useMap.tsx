@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect, MutableRefObject } from 'react';
-import {Map, TileLayer} from 'leaflet';
+import {Map as LeafletMap, TileLayer} from 'leaflet';
 import { Place } from '../types/place';
 
-function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: Place): Map | null {
-	const [map, setMap] = useState<Map | null>(null);
+function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: Place): LeafletMap | null {
+	const [map, setMap] = useState<LeafletMap | null>(null);
 	const isRendered = useRef<boolean>(false);
 
 	useEffect(() => {
 		if(mapRef.current !== null && ! isRendered.current) {
-			const instance = new Map(mapRef.current, {
+			const instance = new LeafletMap(mapRef.current, {
 				center : {
 					lat: city.city.location.latitude,
 					lng: city.city.location.longitude

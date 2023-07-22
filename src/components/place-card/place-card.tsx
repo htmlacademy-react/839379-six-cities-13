@@ -4,17 +4,23 @@ import {Place} from '../../types/place';
 import cn from 'classnames';
 
 type PlaceCardProps = {
+	className: string;
 	info: Place;
-	onPlace: (info:string) => void;
-	outPlace: () => void;
+	onPlace?: (info:string) => void;
+	outPlace?: () => void;
 }
 
-function PlaceCard({info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
+function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
+
 	return (
-		<article onMouseOver={() => onPlace(id)} onMouseOut={outPlace} className="cities__card place-card">
-			{isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
-			<div className="cities__image-wrapper place-card__image-wrapper">
+		<article
+			onMouseOver={onPlace ? () => onPlace(id) : undefined}
+			onMouseOut={outPlace ? () => outPlace() : undefined}
+			className={`${className}__card place-card`}
+		>
+			{isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+			<div className={`${className}__image-wrapper place-card__image-wrapper`}>
 				<Link to={`${AppRoute.Offer}/${id}`}>
 					<img
 						className="place-card__image"
