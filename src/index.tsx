@@ -5,6 +5,8 @@ import {Setting} from './const';
 import {places} from './data/places';
 import {offer} from './data/offer';
 import {comments} from './data/comments';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -12,6 +14,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<App offersCount={Setting.OffersCount} places={places} offer={offer} comments={comments}/>
+		<Provider store={store}>
+			<App offersCount={Setting.OffersCount} places={places} offer={offer} comments={comments}/>
+		</Provider>
 	</React.StrictMode>
 );
