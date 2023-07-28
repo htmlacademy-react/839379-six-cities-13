@@ -5,14 +5,15 @@ import { useState } from 'react';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
 import CityList from '../../components/cityList/city-list';
+import { useAppSelector } from '../../hooks';
 
 type MainPageProps = {
-  offersCount: number;
 	places: Place[];
 }
 
-function MainPage({offersCount, places}: MainPageProps): JSX.Element {
+function MainPage({places}: MainPageProps): JSX.Element {
 	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
+	const currentOffers = useAppSelector((state) => state.places);
 
 	function handleMouseOver(id:string) {
 		const currentPlace = places.find((place) => place.id === id);
@@ -34,7 +35,7 @@ function MainPage({offersCount, places}: MainPageProps): JSX.Element {
 					<div className="cities__places-container container">
 						<section className="cities__places places">
 							<h2 className="visually-hidden">Places</h2>
-							<b className="places__found">{offersCount} places to stay in Amsterdam</b>
+							<b className="places__found">{currentOffers.length} places to stay in Amsterdam</b>
 							<form className="places__sorting" action="#" method="get">
 								<span className="places__sorting-caption">Sort by</span>{' '}
 								<span className="places__sorting-type" tabIndex={0}>
@@ -61,11 +62,11 @@ function MainPage({offersCount, places}: MainPageProps): JSX.Element {
 									</li>
 								</ul>
 							</form>
-							<PlaceCardList places={places} onPlace={handleMouseOver} outPlace={handleMouseOut}/>
+							<PlaceCardList onPlace={handleMouseOver} outPlace={handleMouseOut}/>
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map">
-								<Map city={places[0]} places={places} activePlace={activePlace}/>
+								<Map activePlace={activePlace}/>
 							</section>
 						</div>
 					</div>
