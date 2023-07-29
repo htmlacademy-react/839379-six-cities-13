@@ -1,16 +1,17 @@
-import {Place} from '../../types/place';
+import { useAppSelector } from '../../hooks';
 import PlaceCard from './place-card';
 
 type PlaceCardListProps = {
-	places: Place[];
 	onPlace: (info:string) => void;
 	outPlace: () => void;
 }
 
-function PlaceCardList({places, onPlace, outPlace}: PlaceCardListProps): JSX.Element {
+function PlaceCardList({onPlace, outPlace}: PlaceCardListProps): JSX.Element {
+	const currentOffers = useAppSelector((state) => state.places);
+
 	return (
 		<div className="cities__places-list places__list tabs__content">
-			{places.map((place) => <PlaceCard className='cities' key={place.id} info={place} onPlace={onPlace} outPlace={outPlace}/>)}
+			{currentOffers.map((place) => <PlaceCard className='cities' key={place.id} info={place} onPlace={onPlace} outPlace={outPlace}/>)}
 		</div>
 	);
 }

@@ -26,18 +26,15 @@ function OfferPage({offer, comments, places}: OfferPageProps): JSX.Element {
 				<section className="offer">
 					<div className="offer__gallery-container container">
 						<div className="offer__gallery">
-							{images.map((image, index) => {
-								const keyValue = index;
-								return (
-									<div key={keyValue} className="offer__image-wrapper">
-										<img
-											className="offer__image"
-											src={image}
-											alt="Photo studio"
-										/>
-									</div>
-								);
-							})}
+							{images.map((image) => (
+								<div key={image} className="offer__image-wrapper">
+									<img
+										className="offer__image"
+										src={image}
+										alt="Photo studio"
+									/>
+								</div>
+							))}
 						</div>
 					</div>
 					<div className="offer__container container">
@@ -113,7 +110,7 @@ function OfferPage({offer, comments, places}: OfferPageProps): JSX.Element {
 						</div>
 					</div>
 					<section className="offer__map map">
-						<Map city={places[0]} places={places.slice(1)}/>
+						<Map/>
 					</section>
 				</section>
 				<div className="container">

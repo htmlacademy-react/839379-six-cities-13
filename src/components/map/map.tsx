@@ -3,36 +3,43 @@ import 'leaflet/dist/leaflet.css';
 import {useEffect, useRef} from 'react';
 import {Place} from '../../types/place';
 import useMap from '../../hooks/useMap';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import { useAppSelector } from '../../hooks';
 
 type MapProps = {
-	city: Place;
-	places: Place[];
 	activePlace?: Place | undefined;
 }
 
 const defaultCustomIcon = new Icon({
-	iconUrl: URL_MARKER_DEFAULT,
-	iconSize: [40, 40],
-	iconAnchor: [20,40]
+	iconUrl: '../../../markup/img/pin.svg',
+	iconSize: [28, 40],
+	iconAnchor: [14, 40]
 });
 
 const currentCustomIcon = new Icon({
-	iconUrl: URL_MARKER_CURRENT,
-	iconSize: [40, 40],
-	iconAnchor: [20,40]
+	iconUrl: '../../../markup/img/pin-active.svg',
+	iconSize: [28, 40],
+	iconAnchor: [14, 40]
 });
 
 
-function Map({city, places, activePlace}: MapProps): JSX.Element {
+function Map({activePlace}: MapProps): JSX.Element {
+	const currentOffers = useAppSelector((state) => state.places);
+	const location = currentOffers[0].city.location;
+
 	const mapRef = useRef(null);
-	const map = useMap(mapRef, city);
+	const map = useMap(mapRef, location);
+
+	useEffect(() => {
+		if(map) {
+			map.setView([location.latitude, location.longitude], location.zoom);
+		}
+	}, [map, location]);
 
 	useEffect(() => {
 		if(map) {
 			const markerLayer = layerGroup().addTo(map);
 
-			places.forEach((place) => {
+			currentOffers.forEach((place) => {
 				const marker = new Marker({
 					lat: place.location.latitude,
 					lng: place.location.longitude
@@ -49,7 +56,7 @@ function Map({city, places, activePlace}: MapProps): JSX.Element {
 				map.removeLayer(markerLayer);
 			};
 		}
-	}, [places, map, activePlace]);
+	}, [currentOffers, map, activePlace]);
 
 	return <div ref ={mapRef} style={{height: '100%'}}></div>;
 }

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, MutableRefObject } from 'react';
 import {Map as LeafletMap, TileLayer} from 'leaflet';
-import { Place } from '../types/place';
+import {PointLocation} from '../types/place';
 
-function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: Place): LeafletMap | null {
+function useMap(mapRef: MutableRefObject<HTMLElement | null>, location: PointLocation): LeafletMap | null {
 	const [map, setMap] = useState<LeafletMap | null>(null);
 	const isRendered = useRef<boolean>(false);
 
@@ -10,10 +10,10 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: Place): Leaf
 		if(mapRef.current !== null && ! isRendered.current) {
 			const instance = new LeafletMap(mapRef.current, {
 				center : {
-					lat: city.city.location.latitude,
-					lng: city.city.location.longitude
+					lat: location.latitude,
+					lng: location.longitude
 				},
-				zoom: city.city.location.zoom
+				zoom: location.zoom
 			});
 			const layer = new TileLayer(
 				'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
@@ -26,7 +26,7 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: Place): Leaf
 			setMap(instance);
 			isRendered.current = true;
 		}
-	},[mapRef, city]);
+	},[mapRef, location]);
 
 	return map;
 }
