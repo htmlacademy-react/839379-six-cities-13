@@ -13,4 +13,11 @@ const AuthorizationStatus = {
 	NoAuth: 'NO_AUTH'
 } as const;
 
-export {cities, AppRoute, AuthorizationStatus};
+const SortingType = {
+	Popular: 'Popular',
+	LowPrice: 'Price: low to high',
+	HighPrice: 'Price: high to low',
+	Rating: 'Top rated first'
+} as const;
+
+export {cities, AppRoute, AuthorizationStatus, SortingType};
