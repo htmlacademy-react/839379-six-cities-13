@@ -4,6 +4,8 @@ type ReviewProps = {
 	comment: Comment;
 }
 function Review({comment}: ReviewProps): JSX.Element {
+	const date = new Date(comment.date);
+
 	return (
 		<li key={comment.id} className="reviews__item">
 			<div className="reviews__user user">
@@ -27,7 +29,7 @@ function Review({comment}: ReviewProps): JSX.Element {
 				</div>
 				<p className="reviews__text">{comment.comment}</p>
 				<time className="reviews__time" dateTime={comment.date}>
-					{comment.date}
+					{new Intl.DateTimeFormat('en-Us', {month: 'long', year: 'numeric'}).format(date)}
 				</time>
 			</div>
 		</li>
