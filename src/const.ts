@@ -1,3 +1,5 @@
+import { Place } from './types/place';
+
 const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 const AppRoute = {
@@ -20,4 +22,13 @@ const SortingType = {
 	Rating: 'Top rated first'
 } as const;
 
-export {cities, AppRoute, AuthorizationStatus, SortingType};
+const SortCallbackMap: {
+	[key: string]: (arg0:Place, arg1:Place) => number;
+} = {
+	Popular: () => 0,
+	LowPrice: (a: Place, b: Place) => a.price - b.price,
+	HighPrice: (a: Place, b: Place) => b.price - a.price,
+	Rating: (a: Place, b: Place) => b.rating - a.rating
+};
+
+export {cities, AppRoute, AuthorizationStatus, SortingType, SortCallbackMap};

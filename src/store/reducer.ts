@@ -1,15 +1,17 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {places} from '../data/places';
 import {Place} from '../types/place';
-import {changeCity} from './action';
+import {changeCity, changeSort} from './action';
+import {SortCallbackMap} from '../const';
 
-function getStartPlaces(placesList: Place[], city: string) {
-	return placesList.filter((place) => place.city.name === city);
+function getPlaces(placesList: Place[], city: string, sort = 'Popular') {
+	return placesList.filter((place) => place.city.name === city).sort(SortCallbackMap[sort]);
 }
 
 const initialState = {
 	city: 'Paris',
-	places: getStartPlaces(places, 'Paris')
+	places: getPlaces(places, 'Paris', 'Popular'),
+	sort: 'Popular'
 };
 
 
@@ -17,7 +19,11 @@ const reducer = createReducer(initialState, (builder) => {
 	builder
 		.addCase(changeCity, (state, action) => {
 			state.city = action.payload;
-			state.places = getStartPlaces(places, state.city);
+			state.places = getPlaces(places, state.city);
+		})
+		.addCase(changeSort, (state, action) => {
+			state.sort = action.payload;
+			state.places = getPlaces(places, state.city, action.payload);
 		});
 });
 
