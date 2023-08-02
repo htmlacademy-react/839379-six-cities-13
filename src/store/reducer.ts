@@ -2,7 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import {places} from '../data/places';
 import {Place} from '../types/place';
 import {changeCity, changeSort} from './action';
-import {SortCallbackMap} from '../const';
+import {SortCallbackMap, SortingType} from '../const';
 
 function getPlaces(placesList: Place[], city: string, sort = 'Popular') {
 	return placesList.filter((place) => place.city.name === city).sort(SortCallbackMap[sort]);
@@ -11,7 +11,7 @@ function getPlaces(placesList: Place[], city: string, sort = 'Popular') {
 const initialState = {
 	city: 'Paris',
 	places: getPlaces(places, 'Paris', 'Popular'),
-	sort: 'Popular'
+	sort: 'Popular' as keyof typeof SortingType
 };
 
 

@@ -31,4 +31,8 @@ const SortCallbackMap: {
 	Rating: (a: Place, b: Place) => b.rating - a.rating
 };
 
-export {cities, AppRoute, AuthorizationStatus, SortingType, SortCallbackMap};
+const BASE_URL = 'https://13.design.pages.academy/six-cities';
+
+const TIMEOUT = 5000;
+
+export {cities, AppRoute, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT};
