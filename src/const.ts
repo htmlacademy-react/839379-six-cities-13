@@ -2,6 +2,10 @@ import { Place } from './types/place';
 
 const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
+const BASE_URL = 'https://13.design.pages.academy/six-cities';
+
+const TIMEOUT = 5000;
+
 const AppRoute = {
 	Main: '/',
 	Login: '/login',
@@ -9,6 +13,10 @@ const AppRoute = {
 	Offer: '/offer',
 	NotFound: '*'
 } as const;
+
+const APIRoute = {
+	Offers: '/offers'
+};
 
 const AuthorizationStatus = {
 	Auth: 'AUTH',
@@ -32,8 +40,4 @@ const SortCallbackMap: {
 	Rating: (a: Place, b: Place) => b.rating - a.rating
 };
 
-const BASE_URL = 'https://13.design.pages.academy/six-cities';
-
-const TIMEOUT = 5000;
-
-export {cities, AppRoute, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT};
+export {cities, AppRoute, APIRoute, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT};

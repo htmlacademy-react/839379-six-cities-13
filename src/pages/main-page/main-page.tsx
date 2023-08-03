@@ -8,13 +8,9 @@ import CityList from '../../components/cityList/city-list';
 import { useAppSelector } from '../../hooks';
 import Sorting from '../../components/sorting/sorting';
 
-type MainPageProps = {
-	places: Place[];
-}
-
-function MainPage({places}: MainPageProps): JSX.Element {
+function MainPage(): JSX.Element {
 	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
-	const currentOffers = useAppSelector((state) => state.places);
+	const places = useAppSelector((state) => state.currentPlaces);
 
 	function handleMouseOver(id:string) {
 		const currentPlace = places.find((place) => place.id === id);
@@ -36,7 +32,7 @@ function MainPage({places}: MainPageProps): JSX.Element {
 					<div className="cities__places-container container">
 						<section className="cities__places places">
 							<h2 className="visually-hidden">Places</h2>
-							<b className="places__found">{currentOffers.length} places to stay in Amsterdam</b>
+							<b className="places__found">{places.length} places to stay in Amsterdam</b>
 							<Sorting/>
 							<PlaceCardList onPlace={handleMouseOver} outPlace={handleMouseOut}/>
 						</section>

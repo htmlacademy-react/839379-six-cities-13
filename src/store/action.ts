@@ -10,3 +10,5 @@ export const changeSort = createAction<keyof typeof SortingType>('changeSort');
 export const loadPlaces = createAction<Place[]>('loadPlaces');
 
 export const requireAuthorization = createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>('requireAuthorization');
+
+export const setLoadingStatus = createAction<boolean>('setLoadingStatus');

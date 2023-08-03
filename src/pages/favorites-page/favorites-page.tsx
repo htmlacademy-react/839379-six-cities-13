@@ -1,11 +1,9 @@
 import {Helmet} from 'react-helmet-async';
-import {Place} from '../../types/place';
 import Header from '../../components/header/header';
+import { useAppSelector } from '../../hooks';
 
-type FavoritePageProps = {
-	places: Place[];
-}
-function FavoritePage({places}: FavoritePageProps): JSX.Element {
+function FavoritePage(): JSX.Element {
+	const places = useAppSelector((state) => state.currentPlaces);
 	const favoritePlaces = places.filter((place) => place.isFavorite);
 	const uniqCities = [...new Set(favoritePlaces.map((place) => place.city.name))];
 
