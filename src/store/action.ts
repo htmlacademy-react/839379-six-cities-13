@@ -1,9 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SortingType } from '../const';
+import { Place } from '../types/place';
 
 
-export const changeCity = createAction('changeCity', (city: string) => ({payload: city}));
+export const changeCity = createAction<string>('changeCity');
 
-export const getOfferList = createAction('getOfferList');
+export const changeSort = createAction<keyof typeof SortingType>('changeSort');
 
-export const changeSort = createAction('changeSort', (sort: keyof typeof SortingType) => ({payload: sort}));
+export const LoadPlaces = createAction<Place[]>('loadPlaces');
