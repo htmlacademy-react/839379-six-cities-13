@@ -1,8 +1,12 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { requireAuthorization } from '../../store/action';
 
 function NavForAuthorized(): JSX.Element {
+	const dispatch = useAppDispatch();
+
 	return (
 		<Fragment>
 			<li className="header__nav-item user">
@@ -18,7 +22,7 @@ function NavForAuthorized(): JSX.Element {
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link className="header__nav-link" to="#">
+				<Link onClick={() => dispatch(requireAuthorization(AuthorizationStatus.NoAuth))} className="header__nav-link" to={AppRoute.Login}>
 					<span className="header__signout">Sign out</span>
 				</Link>
 			</li>

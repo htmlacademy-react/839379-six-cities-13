@@ -1,11 +1,27 @@
 import {Helmet} from 'react-helmet-async';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { FormEvent, useRef } from 'react';
+import { logIn } from '../../store/api-actions';
 
 function LoginPage(): JSX.Element {
+	const loginRef = useRef<null | HTMLInputElement>(null);
+	const passwordRef = useRef<null | HTMLInputElement>(null);
+
 	const authStatus = useAppSelector((state) => state.authorizationStatus);
+	const dispatch = useAppDispatch();
+	const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if(loginRef.current !== null && passwordRef.current !== null) {
+			dispatch(logIn({
+				login: loginRef.current.value,
+				password: passwordRef.current.value
+			}));
+		}
+	};
 
 	return (
 		authStatus !== AuthorizationStatus.Auth ?
@@ -15,7 +31,7 @@ function LoginPage(): JSX.Element {
 					<div className="container">
 						<div className="header__wrapper">
 							<div className="header__left">
-								<a className="header__logo-link" href="main.html">
+								<Link className="header__logo-link" to={AppRoute.Main}>
 									<img
 										className="header__logo"
 										src="img/logo.svg"
@@ -23,7 +39,7 @@ function LoginPage(): JSX.Element {
 										width={81}
 										height={41}
 									/>
-								</a>
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -32,10 +48,11 @@ function LoginPage(): JSX.Element {
 					<div className="page__login-container container">
 						<section className="login">
 							<h1 className="login__title">Sign in</h1>
-							<form className="login__form form" action="#" method="post">
+							<form onSubmit={handleSubmitForm} className="login__form form" action="#" method="post">
 								<div className="login__input-wrapper form__input-wrapper">
 									<label className="visually-hidden">E-mail</label>
 									<input
+										ref={loginRef}
 										className="login__input form__input"
 										type="email"
 										name="email"
@@ -46,6 +63,7 @@ function LoginPage(): JSX.Element {
 								<div className="login__input-wrapper form__input-wrapper">
 									<label className="visually-hidden">Password</label>
 									<input
+										ref={passwordRef}
 										className="login__input form__input"
 										type="password"
 										name="password"
