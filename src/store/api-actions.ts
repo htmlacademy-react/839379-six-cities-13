@@ -4,6 +4,9 @@ import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus } from '../const';
 import { loadPlaces, setLoadingStatus, requireAuthorization } from './action';
 import { Place } from '../types/place';
+import { AuthData } from '../types/auth-data';
+import { saveToken } from '../services/token';
+import { UserData } from '../types/user-data';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
 	dispatch: AppDispatch;
@@ -32,5 +35,18 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, {
 		} catch {
 			dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
 		}
+	}
+);
+
+export const logIn = createAsyncThunk<void, AuthData, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
+	'login',
+	async({login: email, password}, {dispatch, extra: api}) => {
+		const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
+		saveToken(token);
+		dispatch(requireAuthorization(AuthorizationStatus.Auth));
 	}
 );
