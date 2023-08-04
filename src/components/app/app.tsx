@@ -30,7 +30,7 @@ function App({offer, comments}: AppProps): JSX.Element {
 				<Routes>
 					<Route path={AppRoute.Main} element={<MainPage/>}/>
 					<Route path={AppRoute.Login} element={<LoginPage/>}/>
-					<Route path={AppRoute.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><FavoritePage/></PrivateRoute>}/>
+					<Route path={AppRoute.Favorites} element={<PrivateRoute><FavoritePage/></PrivateRoute>}/>
 					<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offer={offer} comments={comments}/>}/>
 					<Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
 				</Routes>
