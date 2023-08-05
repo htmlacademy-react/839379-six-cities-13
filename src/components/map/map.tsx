@@ -23,8 +23,9 @@ const currentCustomIcon = new Icon({
 
 
 function Map({activePlace}: MapProps): JSX.Element {
-	const currentOffers = useAppSelector((state) => state.places);
-	const location = currentOffers[0].city.location;
+	const places = useAppSelector((state) => state.currentPlaces);
+
+	const location = places[0].city.location;
 
 	const mapRef = useRef(null);
 	const map = useMap(mapRef, location);
@@ -39,7 +40,7 @@ function Map({activePlace}: MapProps): JSX.Element {
 		if(map) {
 			const markerLayer = layerGroup().addTo(map);
 
-			currentOffers.forEach((place) => {
+			places.forEach((place) => {
 				const marker = new Marker({
 					lat: place.location.latitude,
 					lng: place.location.longitude
@@ -56,7 +57,7 @@ function Map({activePlace}: MapProps): JSX.Element {
 				map.removeLayer(markerLayer);
 			};
 		}
-	}, [currentOffers, map, activePlace]);
+	}, [places, map, activePlace]);
 
 	return <div ref ={mapRef} style={{height: '100%'}}></div>;
 }

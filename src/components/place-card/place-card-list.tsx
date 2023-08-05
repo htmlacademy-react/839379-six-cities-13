@@ -7,11 +7,11 @@ type PlaceCardListProps = {
 }
 
 function PlaceCardList({onPlace, outPlace}: PlaceCardListProps): JSX.Element {
-	const currentOffers = useAppSelector((state) => state.places);
+	const places = useAppSelector((state) => state.currentPlaces);
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
-			{currentOffers.map((place) => <PlaceCard className='cities' key={place.id} info={place} onPlace={onPlace} outPlace={outPlace}/>)}
+			{places.map((place) => <PlaceCard className='cities' key={place.id} info={place} onPlace={onPlace} outPlace={outPlace}/>)}
 		</div>
 	);
 }

@@ -1,0 +1,23 @@
+.block {
+	text-align: center;
+	margin-top: 150px;
+}
+
+.message {
+	font-family: rubik, arial, sans-serif;
+	font-style: oblique;
+	color: #4481c3;
+	font-size: 48px;
+	font-weight: bold;
+}
+
+.link {
+	color: #083c74;
+	font-family: rubik, arial, sans-serif;
+	font-style: oblique;
+}
+
+.link:hover {
+	text-decoration: underline;
+	text-shadow: 0.5px 0.5px #71aef0;
+}

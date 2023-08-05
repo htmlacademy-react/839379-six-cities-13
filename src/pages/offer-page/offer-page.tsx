@@ -3,20 +3,20 @@ import cn from 'classnames';
 import CommentForm from '../../components/form/comment-form';
 import { Offer } from '../../types/offer';
 import { Comments } from '../../types/comments';
-import { Place } from '../../types/place';
 import Header from '../../components/header/header';
 import ReviewList from '../../components/reviews/review-list';
 import Map from '../../components/map/map';
 import NearPlacesList from '../../components/near-places/near-places-list';
+import { useAppSelector } from '../../hooks';
 
 type OfferPageProps = {
 	offer: Offer;
 	comments: Comments;
-	places: Place[];
 }
 
-function OfferPage({offer, comments, places}: OfferPageProps): JSX.Element {
+function OfferPage({offer, comments}: OfferPageProps): JSX.Element {
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offer;
+	const places = useAppSelector((state) => state.currentPlaces);
 
 	return (
 		<div className="page">
