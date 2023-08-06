@@ -1,9 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import { useAppSelector } from '../../hooks';
+import NavForAuthorized from './nav-for-authorized';
+import NavForUnauthorized from './nav-for-unauthorized';
 
 function Header(): JSX.Element {
 	const {pathname} = useLocation();
+	const authStatus = useAppSelector((state) => state.authorizationStatus);
+
 	return (
 		<header className="header">
 			<div className="container">
@@ -27,23 +32,7 @@ function Header(): JSX.Element {
 					</div>
 					<nav className="header__nav">
 						<ul className="header__nav-list">
-							<li className="header__nav-item user">
-								<a
-									className="header__nav-link header__nav-link--profile"
-									href="#"
-								>
-									<div className="header__avatar-wrapper user__avatar-wrapper"></div>
-									<span className="header__user-name user__name">
-										Oliver.conner@gmail.com
-									</span>
-									<span className="header__favorite-count">3</span>
-								</a>
-							</li>
-							<li className="header__nav-item">
-								<a className="header__nav-link" href="#">
-									<span className="header__signout">Sign out</span>
-								</a>
-							</li>
+							{authStatus === AuthorizationStatus.Auth ? <NavForAuthorized/> : <NavForUnauthorized/>}
 						</ul>
 					</nav>
 				</div>
