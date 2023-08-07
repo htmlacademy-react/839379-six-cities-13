@@ -44,7 +44,7 @@ function MainPage(): JSX.Element {
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map">
-								<Map activePlace={activePlace}/>
+								<Map places={places} activePlace={activePlace}/>
 							</section>
 						</div>
 					</div>

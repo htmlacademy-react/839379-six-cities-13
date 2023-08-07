@@ -3,7 +3,7 @@ import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
 import cn from 'classnames';
 import { useAppDispatch } from '../../hooks';
-import { fetchCurrentOffer } from '../../store/api-actions';
+import {fetchOfferInfo } from '../../store/api-actions';
 
 type PlaceCardProps = {
 	className: string;
@@ -16,7 +16,7 @@ function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Ele
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
 	const dispatch = useAppDispatch();
 	const handleClick = () => {
-		dispatch(fetchCurrentOffer(id));
+		dispatch(fetchOfferInfo(id));
 	};
 
 	return (

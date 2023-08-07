@@ -16,7 +16,8 @@ const AppRoute = {
 
 const APIRoute = {
 	Offers: '/offers',
-	Login: '/login'
+	Login: '/login',
+	Comments: '/comments'
 };
 
 const AuthorizationStatus = {

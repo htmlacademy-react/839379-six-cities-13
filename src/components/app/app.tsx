@@ -7,13 +7,8 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import {HelmetProvider} from 'react-helmet-async';
-import {Comments} from '../../types/comments';
 
-type AppProps = {
-	comments: Comments;
-}
-
-function App({comments}: AppProps): JSX.Element {
+function App(): JSX.Element {
 	return (
 		<HelmetProvider>
 			<BrowserRouter>
@@ -21,7 +16,7 @@ function App({comments}: AppProps): JSX.Element {
 					<Route path={AppRoute.Main} element={<MainPage/>}/>
 					<Route path={AppRoute.Login} element={<LoginPage/>}/>
 					<Route path={AppRoute.Favorites} element={<PrivateRoute><FavoritePage/></PrivateRoute>}/>
-					<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage comments={comments}/>}/>
+					<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage/>}/>
 					<Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
 				</Routes>
 			</BrowserRouter>

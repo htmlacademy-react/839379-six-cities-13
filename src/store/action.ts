@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { SortingType, AuthorizationStatus } from '../const';
 import { Place } from '../types/place';
 import { Offer } from '../types/offer';
+import { Comments } from '../types/comments';
 
 
 export const changeCity = createAction<string>('changeCity');
@@ -15,3 +16,7 @@ export const requireAuthorization = createAction<typeof AuthorizationStatus[keyo
 export const setLoadingStatus = createAction<boolean>('setLoadingStatus');
 
 export const loadCurrentOffer = createAction<Offer>('loadCurrentOffer');
+
+export const loadComments = createAction<Comments>('loadComments');
+
+export const loadNearPlaces = createAction<Place[]>('loadNearPlaces');

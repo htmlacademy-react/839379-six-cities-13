@@ -2,12 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadPlaces, setLoadingStatus, requireAuthorization, loadCurrentOffer } from './action';
+import { loadPlaces, setLoadingStatus, requireAuthorization, loadCurrentOffer, loadComments, loadNearPlaces } from './action';
 import { Place } from '../types/place';
 import { AuthData } from '../types/auth-data';
 import { saveToken } from '../services/token';
 import { UserData } from '../types/user-data';
 import { Offer } from '../types/offer';
+import { Comments } from '../types/comments';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
 	dispatch: AppDispatch;
@@ -52,16 +53,22 @@ export const logIn = createAsyncThunk<void, AuthData, {
 	}
 );
 
-export const fetchCurrentOffer = createAsyncThunk<void, string, {
+export const fetchOfferInfo = createAsyncThunk<void, string, {
 	dispatch: AppDispatch;
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'fetchCurrentOffer',
-	async(id, {dispatch, extra: api}) => {
+	'fetchOfferInfo',
+	async (id, {dispatch, extra: api}) => {
 		dispatch(setLoadingStatus(true));
-		const {data} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+		const {data: offer} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+		dispatch(loadCurrentOffer(offer));
+		const {data: comments} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
+		dispatch(loadComments(comments));
+		const {data: nearPlaces} = await api.get<Place[]>(`${APIRoute.Offers}/${id}/nearby`);
 		dispatch(setLoadingStatus(false));
-		dispatch(loadCurrentOffer(data));
+		dispatch(loadNearPlaces(nearPlaces));
 	}
 );
+
+

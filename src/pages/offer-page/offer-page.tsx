@@ -1,7 +1,6 @@
 import {Helmet} from 'react-helmet-async';
 import cn from 'classnames';
 import CommentForm from '../../components/form/comment-form';
-import { Comments } from '../../types/comments';
 import Header from '../../components/header/header';
 import ReviewList from '../../components/reviews/review-list';
 import Map from '../../components/map/map';
@@ -9,15 +8,12 @@ import NearPlacesList from '../../components/near-places/near-places-list';
 import { useAppSelector } from '../../hooks';
 import LoadingPage from '../loading-page/loading-page';
 
-type OfferPageProps = {
-	comments: Comments;
-}
-
-function OfferPage({comments}: OfferPageProps): JSX.Element {
+function OfferPage(): JSX.Element {
 	const isDataLoading = useAppSelector((state) => state.loadingStatus);
 	const currentOffer = useAppSelector((state) => state.currentOffer);
+	const comments = useAppSelector((state) => state.comments);
+	const nearPlaces = useAppSelector((state) => state.nearPlaces);
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
-	const places = useAppSelector((state) => state.currentPlaces);
 
 	if(isDataLoading) {
 		return <LoadingPage/>;
@@ -116,7 +112,7 @@ function OfferPage({comments}: OfferPageProps): JSX.Element {
 						</div>
 					</div>
 					<section className="offer__map map">
-						<Map/>
+						<Map places={nearPlaces}/>
 					</section>
 				</section>
 				<div className="container">
@@ -124,7 +120,7 @@ function OfferPage({comments}: OfferPageProps): JSX.Element {
 						<h2 className="near-places__title">
               Other places in the neighbourhood
 						</h2>
-						<NearPlacesList places={places.slice(1)}/>
+						<NearPlacesList places={nearPlaces}/>
 					</section>
 				</div>
 			</main>
