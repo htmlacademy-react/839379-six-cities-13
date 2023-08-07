@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SortingType, AuthorizationStatus } from '../const';
 import { Place } from '../types/place';
+import { Offer } from '../types/offer';
 
 
 export const changeCity = createAction<string>('changeCity');
@@ -12,3 +13,5 @@ export const loadPlaces = createAction<Place[]>('loadPlaces');
 export const requireAuthorization = createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>('requireAuthorization');
 
 export const setLoadingStatus = createAction<boolean>('setLoadingStatus');
+
+export const loadCurrentOffer = createAction<Offer>('loadCurrentOffer');

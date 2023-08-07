@@ -7,10 +7,12 @@ import Header from '../../components/header/header';
 import CityList from '../../components/cityList/city-list';
 import { useAppSelector } from '../../hooks';
 import Sorting from '../../components/sorting/sorting';
+import LoadingPage from '../../pages/loading-page/loading-page';
 
 function MainPage(): JSX.Element {
-	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
+	const isDataLoading = useAppSelector((state) => state.loadingStatus);
 	const places = useAppSelector((state) => state.currentPlaces);
+	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
 
 	function handleMouseOver(id:string) {
 		const currentPlace = places.find((place) => place.id === id);
@@ -19,6 +21,10 @@ function MainPage(): JSX.Element {
 
 	function handleMouseOut() {
 		setActivePlace(undefined);
+	}
+
+	if(isDataLoading) {
+		return <LoadingPage/>;
 	}
 
 	return (

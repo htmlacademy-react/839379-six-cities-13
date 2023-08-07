@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { requireAuthorization } from '../../store/action';
+import { dropToken } from '../../services/token';
 
 function NavForAuthorized(): JSX.Element {
 	const dispatch = useAppDispatch();
+	const handleClick = () => {
+		dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+		dropToken();
+	};
 
 	return (
 		<Fragment>
@@ -22,7 +27,7 @@ function NavForAuthorized(): JSX.Element {
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link onClick={() => dispatch(requireAuthorization(AuthorizationStatus.NoAuth))} className="header__nav-link" to={AppRoute.Login}>
+				<Link onClick={handleClick} className="header__nav-link" to={AppRoute.Login}>
 					<span className="header__signout">Sign out</span>
 				</Link>
 			</li>

@@ -2,6 +2,8 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
 import cn from 'classnames';
+import { useAppDispatch } from '../../hooks';
+import { fetchCurrentOffer } from '../../store/api-actions';
 
 type PlaceCardProps = {
 	className: string;
@@ -12,6 +14,10 @@ type PlaceCardProps = {
 
 function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
+	const dispatch = useAppDispatch();
+	const handleClick = () => {
+		dispatch(fetchCurrentOffer(id));
+	};
 
 	return (
 		<article
@@ -21,7 +27,7 @@ function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Ele
 		>
 			{isPremium && <div className="place-card__mark"><span>Premium</span></div>}
 			<div className={`${className}__image-wrapper place-card__image-wrapper`}>
-				<Link to={`${AppRoute.Offer}/${id}`}>
+				<Link onClick={handleClick} to={`${AppRoute.Offer}/${id}`}>
 					<img
 						className="place-card__image"
 						src={previewImage}
@@ -61,7 +67,7 @@ function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Ele
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					<Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
+					<Link onClick={handleClick} to={`${AppRoute.Offer}/${id}`}>{title}</Link>
 				</h2>
 				<p className="place-card__type">{type}</p>
 			</div>

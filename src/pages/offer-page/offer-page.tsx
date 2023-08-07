@@ -1,22 +1,28 @@
 import {Helmet} from 'react-helmet-async';
 import cn from 'classnames';
 import CommentForm from '../../components/form/comment-form';
-import { Offer } from '../../types/offer';
 import { Comments } from '../../types/comments';
 import Header from '../../components/header/header';
 import ReviewList from '../../components/reviews/review-list';
 import Map from '../../components/map/map';
 import NearPlacesList from '../../components/near-places/near-places-list';
 import { useAppSelector } from '../../hooks';
+import LoadingPage from '../loading-page/loading-page';
 
 type OfferPageProps = {
-	offer: Offer;
 	comments: Comments;
 }
 
-function OfferPage({offer, comments}: OfferPageProps): JSX.Element {
-	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offer;
+function OfferPage({comments}: OfferPageProps): JSX.Element {
+	const isDataLoading = useAppSelector((state) => state.loadingStatus);
+	const currentOffer = useAppSelector((state) => state.currentOffer);
+	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
 	const places = useAppSelector((state) => state.currentPlaces);
+
+	if(isDataLoading) {
+		return <LoadingPage/>;
+	}
+
 
 	return (
 		<div className="page">

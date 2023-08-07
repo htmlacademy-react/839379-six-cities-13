@@ -1,6 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {Place} from '../types/place';
-import {loadPlaces, changeCity, changeSort, requireAuthorization, setLoadingStatus} from './action';
+import { Offer } from '../types/offer';
+import {loadPlaces, changeCity, changeSort, requireAuthorization, setLoadingStatus, loadCurrentOffer} from './action';
 import {AuthorizationStatus, SortCallbackMap, SortingType} from '../const';
 
 function getPlaces(placesList: Place[], city: string, sort = 'Popular') {
@@ -13,7 +14,8 @@ const initialState = {
 	currentPlaces: [] as Place[],
 	sort: 'Popular' as keyof typeof SortingType,
 	authorizationStatus: AuthorizationStatus.Unknown as typeof AuthorizationStatus[keyof typeof AuthorizationStatus],
-	loadingStatus: false
+	loadingStatus: false,
+	currentOffer: {} as Offer,
 };
 
 
@@ -36,6 +38,9 @@ const reducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(setLoadingStatus, (state, action) => {
 			state.loadingStatus = action.payload;
+		})
+		.addCase(loadCurrentOffer, (state, action) => {
+			state.currentOffer = action.payload;
 		});
 });
 
