@@ -7,13 +7,15 @@ import Map from '../../components/map/map';
 import NearPlacesList from '../../components/near-places/near-places-list';
 import { useAppSelector } from '../../hooks';
 import LoadingPage from '../loading-page/loading-page';
+import { AuthorizationStatus } from '../../const';
 
 function OfferPage(): JSX.Element {
 	const isDataLoading = useAppSelector((state) => state.loadingStatus);
 	const currentOffer = useAppSelector((state) => state.currentOffer);
 	const comments = useAppSelector((state) => state.comments);
 	const nearPlaces = useAppSelector((state) => state.nearPlaces);
-	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
+	const authStatus = useAppSelector((state) => state.authorizationStatus);
+	const {id, title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
 
 	if(isDataLoading) {
 		return <LoadingPage/>;
@@ -107,7 +109,7 @@ function OfferPage(): JSX.Element {
 							</div>
 							<section className="offer__reviews reviews">
 								<ReviewList comments={comments}/>
-								<CommentForm/>
+								{authStatus === AuthorizationStatus.Auth && <CommentForm id={id}/>}
 							</section>
 						</div>
 					</div>

@@ -1,14 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AuthorizationStatus } from '../const';
-import { loadPlaces, setLoadingStatus, requireAuthorization, loadCurrentOffer, loadComments, loadNearPlaces } from './action';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { loadPlaces, setLoadingStatus, requireAuthorization, loadCurrentOffer, loadComments, loadNearPlaces, addComment, setError } from './action';
 import { Place } from '../types/place';
 import { AuthData } from '../types/auth-data';
-import { saveToken } from '../services/token';
+import { dropToken, saveToken } from '../services/token';
 import { UserData } from '../types/user-data';
 import { Offer } from '../types/offer';
-import { Comments } from '../types/comments';
+import {Comment, Comments, NewComment} from '../types/comments';
+import { store } from './';
+
+export const clearError = createAsyncThunk(
+	'clearError',
+	() => {
+		setTimeout(
+			() => store.dispatch(setError(null)),
+			TIMEOUT_SHOW_ERROR
+		);
+	}
+);
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
 	dispatch: AppDispatch;
@@ -53,6 +64,19 @@ export const logIn = createAsyncThunk<void, AuthData, {
 	}
 );
 
+export const logOut = createAsyncThunk<void, undefined, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
+	'logout',
+	async(_arg, {dispatch, extra: api}) => {
+		await api.delete(APIRoute.Logout);
+		dropToken();
+		dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+	}
+);
+
 export const fetchOfferInfo = createAsyncThunk<void, string, {
 	dispatch: AppDispatch;
 	state: State;
@@ -71,4 +95,16 @@ export const fetchOfferInfo = createAsyncThunk<void, string, {
 	}
 );
 
+export const sendComment = createAsyncThunk<void, NewComment, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}
+>(
+	'sendComment',
+	async ({id, comment, rating},{dispatch, extra: api}) => {
+		const {data} = await api.post<Comment>(`${APIRoute.Comments}/${id}`, {comment, rating});
+		dispatch(addComment(data));
+	}
+);
 

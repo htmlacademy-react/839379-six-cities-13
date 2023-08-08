@@ -1,27 +1,38 @@
-import {useState} from 'react';
-import { ChangeEvent } from 'react';
+import {FormEvent} from 'react';
 import RatingField from './rating-field';
+import { useAppDispatch } from '../../hooks';
+import { sendComment } from '../../store/api-actions';
+import { CommentField } from '../../types/comments';
 
-function CommentForm(): JSX.Element {
-	const [comment, setComment] = useState('');
+type CommentFormProps = {
+	id: string;
+}
 
-	const handleReviewChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
-		setComment(target.value);
+function CommentForm({id}: CommentFormProps): JSX.Element {
+	const dispatch = useAppDispatch();
+
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const form = event.currentTarget as CommentField;
+		dispatch(sendComment({
+			id,
+			comment: form.review.value,
+			rating: Number(form.rating.value),
+		}));
 	};
 
+
 	return (
-		<form className="reviews__form form" action="#" method="post">
+		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
 			<RatingField/>
 			<textarea
-				onChange={handleReviewChange}
 				className="reviews__textarea form__textarea"
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
-				value={comment}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">
@@ -33,7 +44,6 @@ function CommentForm(): JSX.Element {
 				<button
 					className="reviews__submit form__submit button"
 					type="submit"
-					disabled
 				>
 					Submit
 				</button>

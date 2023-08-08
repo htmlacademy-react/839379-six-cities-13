@@ -2,23 +2,37 @@ import {createReducer} from '@reduxjs/toolkit';
 import {Place} from '../types/place';
 import { Offer } from '../types/offer';
 import { Comments } from '../types/comments';
-import {loadPlaces, changeCity, changeSort, requireAuthorization, setLoadingStatus, loadCurrentOffer, loadComments, loadNearPlaces} from './action';
+import {loadPlaces, changeCity, changeSort, requireAuthorization, setLoadingStatus, loadCurrentOffer, loadComments, loadNearPlaces, addComment, setError} from './action';
 import {AuthorizationStatus, SortCallbackMap, SortingType} from '../const';
 
 function getPlaces(placesList: Place[], city: string, sort = 'Popular') {
 	return placesList.filter((place) => place.city.name === city).sort(SortCallbackMap[sort]);
 }
 
-const initialState = {
+type InitialState = {
+	city: string;
+	places: Place[];
+	currentPlaces: Place[];
+	sort: keyof typeof SortingType;
+	authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
+	loadingStatus: boolean;
+	currentOffer: Offer;
+	comments: Comments;
+	nearPlaces: Place[];
+	error: string | null;
+}
+
+const initialState: InitialState = {
 	city: 'Paris',
-	places: [] as Place[],
-	currentPlaces: [] as Place[],
-	sort: 'Popular' as keyof typeof SortingType,
-	authorizationStatus: AuthorizationStatus.Unknown as typeof AuthorizationStatus[keyof typeof AuthorizationStatus],
+	places: [],
+	currentPlaces: [],
+	sort: 'Popular',
+	authorizationStatus: AuthorizationStatus.Unknown,
 	loadingStatus: false,
 	currentOffer: {} as Offer,
-	comments: [] as Comments,
-	nearPlaces: [] as Place[]
+	comments: [],
+	nearPlaces: [],
+	error: null
 };
 
 
@@ -50,6 +64,12 @@ const reducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(loadNearPlaces, (state, action) => {
 			state.nearPlaces = action.payload;
+		})
+		.addCase(addComment, (state, action) => {
+			state.comments.push(action.payload);
+		})
+		.addCase(setError, (state, action) => {
+			state.error = action.payload;
 		});
 });
 

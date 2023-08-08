@@ -1,15 +1,13 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { requireAuthorization } from '../../store/action';
-import { dropToken } from '../../services/token';
+import { logOut } from '../../store/api-actions';
 
 function NavForAuthorized(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const handleClick = () => {
-		dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-		dropToken();
+		dispatch(logOut());
 	};
 
 	return (
