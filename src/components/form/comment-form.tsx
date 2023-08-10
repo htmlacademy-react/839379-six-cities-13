@@ -5,7 +5,7 @@ import { sendComment } from '../../store/api-actions';
 import { CommentField } from '../../types/comments';
 
 type CommentFormProps = {
-	id: string;
+	id: string | undefined;
 }
 
 function CommentForm({id}: CommentFormProps): JSX.Element {
@@ -14,11 +14,19 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const form = event.currentTarget as CommentField;
-		dispatch(sendComment({
-			id,
-			comment: form.review.value,
-			rating: Number(form.rating.value),
-		}));
+		if(id) {
+			dispatch(sendComment({
+				id,
+				comment: form.review.value,
+				rating: Number(form.rating.value),
+			}))
+				.then(() => {
+					form.review.value = '';
+				})
+				.catch((error) => {
+					throw error;
+				});
+		}
 	};
 
 

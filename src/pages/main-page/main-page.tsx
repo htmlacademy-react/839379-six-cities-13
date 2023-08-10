@@ -4,7 +4,7 @@ import PlaceCardList from '../../components/place-card/place-card-list';
 import { useState } from 'react';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
-import CityList from '../../components/cityList/city-list';
+import CityList from '../../components/city-list/city-list';
 import { useAppSelector } from '../../hooks';
 import Sorting from '../../components/sorting/sorting';
 import LoadingPage from '../../pages/loading-page/loading-page';

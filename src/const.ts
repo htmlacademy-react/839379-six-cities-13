@@ -29,6 +29,13 @@ const AuthorizationStatus = {
 	Unknown: 'UNKNOWN'
 } as const;
 
+const RequestStatus = {
+	IDLE: 'Idle',
+	PENDING: 'Pending',
+	SUCCESS: 'Success',
+	ERROR: 'Error',
+} as const;
+
 const SortingType = {
 	Popular: 'Popular',
 	LowPrice: 'Price: low to high',
@@ -45,4 +52,4 @@ const SortCallbackMap: {
 	Rating: (a: Place, b: Place) => b.rating - a.rating
 };
 
-export {cities, AppRoute, APIRoute, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT, TIMEOUT_SHOW_ERROR};
+export {cities, AppRoute, APIRoute, RequestStatus, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT, TIMEOUT_SHOW_ERROR};

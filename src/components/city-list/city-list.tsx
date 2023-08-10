@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import {cities} from '../../const';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';

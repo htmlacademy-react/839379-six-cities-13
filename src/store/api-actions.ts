@@ -9,13 +9,52 @@ import { dropToken, saveToken } from '../services/token';
 import { UserData } from '../types/user-data';
 import { Offer } from '../types/offer';
 import {Comment, Comments, NewComment} from '../types/comments';
-import { store } from './';
 
-export const clearError = createAsyncThunk(
+export const fetchOffer = createAsyncThunk<void, string, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
+	'fetchOffer',
+	async (id, {dispatch, extra: api}) => {
+		const {data: offer} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+		dispatch(loadCurrentOffer(offer));
+	}
+);
+
+export const fetchComments = createAsyncThunk<void, string, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
+	'fetchComments',
+	async (id, {dispatch, extra: api}) => {
+		const {data: comments} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
+		dispatch(loadComments(comments));
+	}
+);
+
+export const fetchNearPlaces = createAsyncThunk<void, string, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
+	'fetchNearPlaces',
+	async (id, {dispatch, extra: api}) => {
+		const {data: nearPlaces} = await api.get<Place[]>(`${APIRoute.Offers}/${id}/nearby`);
+		dispatch(loadNearPlaces(nearPlaces));
+	}
+);
+
+export const clearError = createAsyncThunk<void, undefined, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
 	'clearError',
-	() => {
+	(_arg, {dispatch}) => {
 		setTimeout(
-			() => store.dispatch(setError(null)),
+			() => dispatch(setError(null)),
 			TIMEOUT_SHOW_ERROR
 		);
 	}
@@ -74,24 +113,6 @@ export const logOut = createAsyncThunk<void, undefined, {
 		await api.delete(APIRoute.Logout);
 		dropToken();
 		dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-	}
-);
-
-export const fetchOfferInfo = createAsyncThunk<void, string, {
-	dispatch: AppDispatch;
-	state: State;
-	extra: AxiosInstance;
-}>(
-	'fetchOfferInfo',
-	async (id, {dispatch, extra: api}) => {
-		dispatch(setLoadingStatus(true));
-		const {data: offer} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
-		dispatch(loadCurrentOffer(offer));
-		const {data: comments} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
-		dispatch(loadComments(comments));
-		const {data: nearPlaces} = await api.get<Place[]>(`${APIRoute.Offers}/${id}/nearby`);
-		dispatch(setLoadingStatus(false));
-		dispatch(loadNearPlaces(nearPlaces));
 	}
 );
 
