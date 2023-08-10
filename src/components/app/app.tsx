@@ -7,11 +7,13 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import {HelmetProvider} from 'react-helmet-async';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
 	return (
 		<HelmetProvider>
-			<BrowserRouter>
+			<HistoryRouter history={browserHistory}>
 				<Routes>
 					<Route path={AppRoute.Main} element={<MainPage/>}/>
 					<Route path={AppRoute.Login} element={<LoginPage/>}/>
@@ -19,7 +21,7 @@ function App(): JSX.Element {
 					<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage/>}/>
 					<Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
 				</Routes>
-			</BrowserRouter>
+			</HistoryRouter>
 		</HelmetProvider>
 	);
 }

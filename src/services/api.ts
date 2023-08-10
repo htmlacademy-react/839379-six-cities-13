@@ -1,8 +1,9 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
-import {BASE_URL, TIMEOUT} from '../const';
+import {AppRoute, BASE_URL, TIMEOUT} from '../const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
 import { processErrorHandle } from './process-error-handle';
+import browserHistory from '../browser-history';
 
 const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,
@@ -41,9 +42,9 @@ export const createAPI = (): AxiosInstance => {
 
 				processErrorHandle(detailMessage.message);
 			}
-			// if(error.response?.status === StatusCodes.NOT_FOUND) {
-			// 	browserHistory.push(AppRoute.NotFound);
-			// }
+			if(error.response?.status === StatusCodes.NOT_FOUND) {
+				browserHistory.push(AppRoute.NotFound);
+			}
 
 			throw error;
 		}

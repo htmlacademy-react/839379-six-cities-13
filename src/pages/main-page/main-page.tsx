@@ -11,6 +11,7 @@ import LoadingPage from '../../pages/loading-page/loading-page';
 
 function MainPage(): JSX.Element {
 	const isDataLoading = useAppSelector((state) => state.loadingStatus);
+	const city = useAppSelector((state) => state.city);
 	const places = useAppSelector((state) => state.currentPlaces);
 	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
 
@@ -38,7 +39,7 @@ function MainPage(): JSX.Element {
 					<div className="cities__places-container container">
 						<section className="cities__places places">
 							<h2 className="visually-hidden">Places</h2>
-							<b className="places__found">{places.length} places to stay in Amsterdam</b>
+							<b className="places__found">{places.length} places to stay in {city}</b>
 							<Sorting/>
 							<PlaceCardList onPlace={handleMouseOver} outPlace={handleMouseOut}/>
 						</section>
