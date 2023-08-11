@@ -2,8 +2,8 @@ import {createReducer} from '@reduxjs/toolkit';
 import {Place} from '../types/place';
 import { Offer } from '../types/offer';
 import { Comments } from '../types/comments';
-import {loadPlaces, changeCity, changeSort, requireAuthorization, setLoadingStatus, loadCurrentOffer, loadComments, loadNearPlaces, addComment, setError} from './action';
-import { fetchOffer, fetchComments, fetchNearPlaces} from './api-actions';
+import {loadPlaces, changeCity, changeSort, requireAuthorization, loadCurrentOffer, loadComments, loadNearPlaces, addComment, setError} from './action';
+import { fetchOffer, fetchComments, fetchNearPlaces, fetchOffers, sendComment} from './api-actions';
 import {AuthorizationStatus, RequestStatus, SortCallbackMap, SortingType} from '../const';
 
 function getPlaces(placesList: Place[], city: string, sort = 'Popular') {
@@ -16,12 +16,13 @@ type InitialState = {
 	currentPlaces: Place[];
 	sort: keyof typeof SortingType;
 	authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
-	loadingStatus: boolean;
 	currentOffer: Offer;
 	offerFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	commentsFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	nearPlacesFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
+	placesFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	comments: Comments;
+	commentSendingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	nearPlaces: Place[];
 	error: string | null;
 }
@@ -32,12 +33,13 @@ const initialState: InitialState = {
 	currentPlaces: [],
 	sort: 'Popular',
 	authorizationStatus: AuthorizationStatus.Unknown,
-	loadingStatus: false,
 	currentOffer: {} as Offer,
 	offerFetchingStatus: RequestStatus.IDLE,
 	commentsFetchingStatus: RequestStatus.IDLE,
 	nearPlacesFetchingStatus: RequestStatus.IDLE,
+	placesFetchingStatus: RequestStatus.IDLE,
 	comments: [],
+	commentSendingStatus: RequestStatus.IDLE,
 	nearPlaces: [],
 	error: null
 };
@@ -59,9 +61,6 @@ const reducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(requireAuthorization, (state, action) => {
 			state.authorizationStatus = action.payload;
-		})
-		.addCase(setLoadingStatus, (state, action) => {
-			state.loadingStatus = action.payload;
 		})
 		.addCase(loadCurrentOffer, (state, action) => {
 			state.currentOffer = action.payload;
@@ -104,6 +103,24 @@ const reducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(fetchNearPlaces.rejected, (state) => {
 			state.nearPlacesFetchingStatus = RequestStatus.ERROR;
+		})
+		.addCase(fetchOffers.pending, (state) => {
+			state.placesFetchingStatus = RequestStatus.PENDING;
+		})
+		.addCase(fetchOffers.fulfilled, (state) => {
+			state.placesFetchingStatus = RequestStatus.SUCCESS;
+		})
+		.addCase(fetchOffers.rejected, (state) => {
+			state.placesFetchingStatus = RequestStatus.ERROR;
+		})
+		.addCase(sendComment.pending, (state) => {
+			state.commentSendingStatus = RequestStatus.PENDING;
+		})
+		.addCase(sendComment.fulfilled, (state) => {
+			state.commentSendingStatus = RequestStatus.SUCCESS;
+		})
+		.addCase(sendComment.rejected, (state) => {
+			state.commentSendingStatus = RequestStatus.ERROR;
 		});
 });
 

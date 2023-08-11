@@ -1,6 +1,8 @@
-import { Fragment } from 'react';
+import { Fragment, useRef } from 'react';
 
 function RatingField(): JSX.Element {
+	const ratingRef = useRef<null | SVGSVGElement>(null);
+
 	const ratingValues = {
 		'1': 'terribly',
 		'2': 'badly',
@@ -25,7 +27,7 @@ function RatingField(): JSX.Element {
 						className="reviews__rating-label form__rating-label"
 						title={title}
 					>
-						<svg className="form__star-image" width="37" height="33">
+						<svg ref={ratingRef} className="form__star-image" width="37" height="33">
 							<use xlinkHref="#icon-star"></use>
 						</svg>
 					</label>
@@ -36,4 +38,5 @@ function RatingField(): JSX.Element {
 }
 
 export default RatingField;
+
 

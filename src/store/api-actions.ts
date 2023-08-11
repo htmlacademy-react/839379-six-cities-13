@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { loadPlaces, setLoadingStatus, requireAuthorization, loadCurrentOffer, loadComments, loadNearPlaces, addComment, setError } from './action';
+import { loadPlaces, requireAuthorization, loadCurrentOffer, loadComments, loadNearPlaces, addComment, setError } from './action';
 import { Place } from '../types/place';
 import { AuthData } from '../types/auth-data';
 import { dropToken, saveToken } from '../services/token';
@@ -67,9 +67,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
 }>(
 	'fetchOffers',
 	async(_arg, {dispatch, extra: api}) => {
-		dispatch(setLoadingStatus(true));
 		const {data} = await api.get<Place[]>(APIRoute.Offers);
-		dispatch(setLoadingStatus(false));
 		dispatch(loadPlaces(data));
 	}
 );

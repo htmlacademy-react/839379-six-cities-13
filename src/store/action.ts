@@ -13,8 +13,6 @@ export const loadPlaces = createAction<Place[]>('loadPlaces');
 
 export const requireAuthorization = createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>('requireAuthorization');
 
-export const setLoadingStatus = createAction<boolean>('setLoadingStatus');
-
 export const loadCurrentOffer = createAction<Offer>('loadCurrentOffer');
 
 export const loadComments = createAction<Comments>('loadComments');
