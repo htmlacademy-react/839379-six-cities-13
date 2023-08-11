@@ -2,7 +2,7 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {useEffect, useRef} from 'react';
 import {Place} from '../../types/place';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 
 type MapProps = {
 	activePlace?: Place | undefined;

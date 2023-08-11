@@ -1,7 +1,6 @@
 import {Helmet} from 'react-helmet-async';
-import {Place} from '../../types/place';
 import PlaceCardList from '../../components/place-card/place-card-list';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
 import CityList from '../../components/city-list/city-list';
@@ -10,26 +9,18 @@ import Sorting from '../../components/sorting/sorting';
 import LoadingPage from '../../pages/loading-page/loading-page';
 import { fetchOffers } from '../../store/api-actions';
 import { RequestStatus } from '../../const';
+import useActivePlace from '../../hooks/use-active-place';
 
 function MainPage(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const placesFetchingStatus = useAppSelector((state) => state.placesFetchingStatus);
 	const city = useAppSelector((state) => state.city);
 	const places = useAppSelector((state) => state.currentPlaces);
-	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
+	const [activePlace, handleMouseOver, handleMouseOut] = useActivePlace(places);
 
 	useEffect(() => {
 		dispatch(fetchOffers());
 	}, [dispatch]);
-
-	function handleMouseOver(id:string) {
-		const currentPlace = places.find((place) => place.id === id);
-		setActivePlace(currentPlace);
-	}
-
-	function handleMouseOut() {
-		setActivePlace(undefined);
-	}
 
 	return (
 		<Fragment>

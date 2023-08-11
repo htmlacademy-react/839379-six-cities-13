@@ -2,7 +2,7 @@ import { useAppSelector } from '../../hooks';
 import PlaceCard from './place-card';
 
 type PlaceCardListProps = {
-	onPlace: (info:string) => void;
+	onPlace: (id:string) => void;
 	outPlace: () => void;
 }
 

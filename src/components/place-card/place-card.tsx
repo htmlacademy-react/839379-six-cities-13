@@ -6,7 +6,7 @@ import cn from 'classnames';
 type PlaceCardProps = {
 	className: string;
 	info: Place;
-	onPlace?: (info:string) => void;
+	onPlace?: (id:string) => void;
 	outPlace?: () => void;
 }
 
