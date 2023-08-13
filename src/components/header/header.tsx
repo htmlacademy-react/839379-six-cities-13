@@ -4,10 +4,11 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import { useAppSelector } from '../../hooks';
 import NavForAuthorized from './nav-for-authorized';
 import NavForUnauthorized from './nav-for-unauthorized';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function Header(): JSX.Element {
 	const {pathname} = useLocation();
-	const authStatus = useAppSelector((state) => state.authorizationStatus);
+	const authStatus = useAppSelector(getAuthorizationStatus);
 
 	return (
 		<header className="header">

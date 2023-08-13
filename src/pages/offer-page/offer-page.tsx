@@ -12,16 +12,19 @@ import { Fragment } from 'react';
 import { fetchComments, fetchNearPlaces, fetchOffer } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { getOffer, getOfferFetchingStatus } from '../../store/offer-data/selectors';
+import { getNearPlaces, getNearPlacesFetchingStatus } from '../../store/near-places-data/selectors';
+import { getComments, getCommentsFetchingStatus } from '../../store/comments-data/selectors';
 
 function OfferPage(): JSX.Element {
 	const {id} = useParams();
 	const dispatch = useAppDispatch();
-	const offerFetchingStatus = useAppSelector((state) => state.offerFetchingStatus);
-	const commentFetchingStatus = useAppSelector((state) => state.commentsFetchingStatus);
-	const nearPlacesFetchingStatus = useAppSelector((state) => state.nearPlacesFetchingStatus);
-	const currentOffer = useAppSelector((state) => state.currentOffer);
-	const comments = useAppSelector((state) => state.comments);
-	const nearPlaces = useAppSelector((state) => state.nearPlaces);
+	const offerFetchingStatus = useAppSelector(getOfferFetchingStatus);
+	const commentFetchingStatus = useAppSelector(getCommentsFetchingStatus);
+	const nearPlacesFetchingStatus = useAppSelector(getNearPlacesFetchingStatus);
+	const currentOffer = useAppSelector(getOffer);
+	const comments = useAppSelector(getComments);
+	const nearPlaces = useAppSelector(getNearPlaces);
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
 
 

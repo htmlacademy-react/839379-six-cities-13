@@ -6,7 +6,14 @@ const BASE_URL = 'https://13.design.pages.academy/six-cities';
 
 const TIMEOUT = 5000;
 
-const TIMEOUT_SHOW_ERROR = 2000;
+const NameSpace = {
+	User: 'USER',
+	Places: 'PLACES',
+	Offer: 'OFFER',
+	Favorites: 'FAVORITES',
+	Comments: 'COMMENTS',
+	NearPlaces: 'NEAR_PLACES'
+} as const;
 
 const AppRoute = {
 	Main: '/',
@@ -21,6 +28,7 @@ const APIRoute = {
 	Login: '/login',
 	Logout: '/logout',
 	Comments: '/comments',
+	Favorites: '/favorite',
 };
 
 const AuthorizationStatus = {
@@ -52,4 +60,4 @@ const SortCallbackMap: {
 	Rating: (a: Place, b: Place) => b.rating - a.rating
 };
 
-export {cities, AppRoute, APIRoute, RequestStatus, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT, TIMEOUT_SHOW_ERROR};
+export {cities, NameSpace, AppRoute, APIRoute, RequestStatus, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT};

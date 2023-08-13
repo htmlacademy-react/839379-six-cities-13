@@ -2,8 +2,8 @@ import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import {AppRoute, BASE_URL, TIMEOUT} from '../const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
-import { processErrorHandle } from './process-error-handle';
 import browserHistory from '../browser-history';
+import {toast} from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,
@@ -40,7 +40,7 @@ export const createAPI = (): AxiosInstance => {
 			if (error.response && shouldDisplayError(error.response)) {
 				const detailMessage = (error.response.data);
 
-				processErrorHandle(detailMessage.message);
+				toast.warn(detailMessage.message);
 			}
 			if(error.response?.status === StatusCodes.NOT_FOUND) {
 				browserHistory.push(AppRoute.NotFound);

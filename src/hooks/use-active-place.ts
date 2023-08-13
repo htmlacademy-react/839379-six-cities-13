@@ -9,9 +9,9 @@ const useActivePlace = (places: Place[]): ResultActivePlace => {
 		const currentPlace = places.find((place) => place.id === id);
 		setActivePlace(currentPlace);
 	};
-	const handleMouseOut = () => {
-		setActivePlace(undefined);
-	};
+
+	const handleMouseOut = () => setActivePlace(undefined);
+
 
 	return [activePlace, handleMouseOver, handleMouseOut];
 };

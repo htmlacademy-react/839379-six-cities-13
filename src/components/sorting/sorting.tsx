@@ -1,12 +1,13 @@
 import {SortingType} from '../../const';
 import cn from 'classnames';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import {changeSort} from '../../store/action';
+import { changeSort } from '../../store/places-data/places-data';
 import { useState } from 'react';
+import { getSort } from '../../store/places-data/selectors';
 
 function Sorting(): JSX.Element {
 	const sortingTypes = Object.keys(SortingType) as Array<keyof typeof SortingType>;
-	const sort = useAppSelector((state) => state.sort);
+	const sort = useAppSelector(getSort);
 	const dispatch = useAppDispatch();
 	const [isActiveSort, setActiveSort] = useState(false);
 

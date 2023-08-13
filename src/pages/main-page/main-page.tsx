@@ -10,12 +10,13 @@ import LoadingPage from '../../pages/loading-page/loading-page';
 import { fetchOffers } from '../../store/api-actions';
 import { RequestStatus } from '../../const';
 import useActivePlace from '../../hooks/use-active-place';
+import { getCity, getCurrentPlaces, getPlacesFetchingStatus } from '../../store/places-data/selectors';
 
 function MainPage(): JSX.Element {
 	const dispatch = useAppDispatch();
-	const placesFetchingStatus = useAppSelector((state) => state.placesFetchingStatus);
-	const city = useAppSelector((state) => state.city);
-	const places = useAppSelector((state) => state.currentPlaces);
+	const placesFetchingStatus = useAppSelector(getPlacesFetchingStatus);
+	const city = useAppSelector(getCity);
+	const places = useAppSelector(getCurrentPlaces);
 	const [activePlace, handleMouseOver, handleMouseOut] = useActivePlace(places);
 
 	useEffect(() => {

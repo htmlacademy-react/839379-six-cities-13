@@ -4,13 +4,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendComment } from '../../store/api-actions';
 import { CommentField } from '../../types/comments';
 import { RequestStatus } from '../../const';
+import { getCommentsSendingStatus } from '../../store/comments-data/selectors';
 
 type CommentFormProps = {
 	id: string | undefined;
 }
 
 function CommentForm({id}: CommentFormProps): JSX.Element {
-	const commentSendingStatus = useAppSelector((state) => state.commentSendingStatus);
+	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
 	const dispatch = useAppDispatch();
 	const commentRef = useRef<HTMLTextAreaElement | null>(null);
 	const buttonRef = useRef<HTMLButtonElement| null>(null);

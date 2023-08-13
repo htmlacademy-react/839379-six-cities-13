@@ -1,4 +1,5 @@
 import { useAppSelector } from '../../hooks';
+import { getCurrentPlaces } from '../../store/places-data/selectors';
 import PlaceCard from './place-card';
 
 type PlaceCardListProps = {
@@ -7,7 +8,7 @@ type PlaceCardListProps = {
 }
 
 function PlaceCardList({onPlace, outPlace}: PlaceCardListProps): JSX.Element {
-	const places = useAppSelector((state) => state.currentPlaces);
+	const places = useAppSelector(getCurrentPlaces);
 
 	return (
 		<div className="cities__places-list places__list tabs__content">

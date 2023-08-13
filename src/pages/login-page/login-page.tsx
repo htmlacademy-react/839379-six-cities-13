@@ -5,13 +5,14 @@ import { Link, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { FormEvent, useRef } from 'react';
 import { logIn } from '../../store/api-actions';
-import { changeCity } from '../../store/action';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { changeCity } from '../../store/places-data/places-data';
 
 function LoginPage(): JSX.Element {
 	const loginRef = useRef<null | HTMLInputElement>(null);
 	const passwordRef = useRef<null | HTMLInputElement>(null);
 
-	const authStatus = useAppSelector((state) => state.authorizationStatus);
+	const authStatus = useAppSelector(getAuthorizationStatus);
 	const dispatch = useAppDispatch();
 	const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
