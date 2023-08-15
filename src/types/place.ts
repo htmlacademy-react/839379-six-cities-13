@@ -6,7 +6,7 @@ export type Place = {
 	previewImage: string;
 	city: City;
 	location: PointLocation;
-	isFavorite?: boolean;
+	isFavorite: boolean;
 	isPremium: boolean;
 	rating: number;
 }

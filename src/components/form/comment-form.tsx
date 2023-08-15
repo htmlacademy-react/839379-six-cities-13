@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import RatingField from './rating-field';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendComment } from '../../store/api-actions';
@@ -13,8 +13,9 @@ type CommentFormProps = {
 function CommentForm({id}: CommentFormProps): JSX.Element {
 	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
 	const dispatch = useAppDispatch();
-	const commentRef = useRef<HTMLTextAreaElement | null>(null);
-	const buttonRef = useRef<HTMLButtonElement| null>(null);
+	const formRef = useRef<HTMLFormElement | null>(null);
+	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
+	const isDisabled = commentSendingStatus === RequestStatus.PENDING;
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -28,23 +29,19 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 		}
 	};
 
-	if(commentSendingStatus === RequestStatus.PENDING && buttonRef.current) {
-		buttonRef.current.disabled = true;
-	}
-
-	if(commentSendingStatus === RequestStatus.SUCCESS && commentRef.current && buttonRef.current) {
-		commentRef.current.value = '';
-		buttonRef.current.disabled = false;
-	}
+	useEffect(() => {
+		if(isSuccess) {
+			formRef.current?.reset();
+		}
+	}, [isSuccess]);
 
 	return (
-		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
+		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post" ref={formRef}>
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
 			<RatingField/>
 			<textarea
-				ref={commentRef}
 				className="reviews__textarea form__textarea"
 				id="review"
 				name="review"
@@ -57,9 +54,10 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 					your stay with at least{' '}
 					<b className="reviews__text-amount">50 characters</b>.
 				</p>
-				<button ref={buttonRef}
+				<button
 					className="reviews__submit form__submit button"
 					type="submit"
+					disabled={isDisabled}
 				>
 					Submit
 				</button>

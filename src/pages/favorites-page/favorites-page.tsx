@@ -2,6 +2,7 @@ import {Helmet} from 'react-helmet-async';
 import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
 import { getFavorites } from '../../store/favorites-data/selectors';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 
 function FavoritePage(): JSX.Element {
 	const favoritePlaces = useAppSelector(getFavorites);
@@ -53,19 +54,7 @@ function FavoritePage(): JSX.Element {
 																		/&nbsp;night
 																	</span>
 																</div>
-																<button
-																	className="place-card__bookmark-button place-card__bookmark-button--active button"
-																	type="button"
-																>
-																	<svg
-																		className="place-card__bookmark-icon"
-																		width={18}
-																		height={19}
-																	>
-																		<use xlinkHref="#icon-bookmark" />
-																	</svg>
-																	<span className="visually-hidden">In bookmarks</span>
-																</button>
+																<BookmarkButton isFavorite id={place.id} block='place-card' size='small' />
 															</div>
 															<div className="place-card__rating rating">
 																<div className="place-card__stars rating__stars">

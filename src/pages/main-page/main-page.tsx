@@ -11,6 +11,7 @@ import { fetchOffers } from '../../store/api-actions';
 import { RequestStatus } from '../../const';
 import useActivePlace from '../../hooks/use-active-place';
 import { getCity, getCurrentPlaces, getPlacesFetchingStatus } from '../../store/places-data/selectors';
+import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
 
 function MainPage(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -34,19 +35,21 @@ function MainPage(): JSX.Element {
 						<h1 className="visually-hidden">Cities</h1>
 						<CityList/>
 						<div className="cities">
-							<div className="cities__places-container container">
-								<section className="cities__places places">
-									<h2 className="visually-hidden">Places</h2>
-									<b className="places__found">{places.length} places to stay in {city}</b>
-									<Sorting/>
-									<PlaceCardList onPlace={handleMouseOver} outPlace={handleMouseOut}/>
-								</section>
-								<div className="cities__right-section">
-									<section className="cities__map map">
-										<Map places={places} activePlace={activePlace}/>
+							{places.length === 0 ? <EmptyPlacesList/> : (
+								<div className="cities__places-container container">
+									<section className="cities__places places">
+										<h2 className="visually-hidden">Places</h2>
+										<b className="places__found">{places.length} places to stay in {city}</b>
+										<Sorting/>
+										<PlaceCardList onPlace={handleMouseOver} outPlace={handleMouseOut}/>
 									</section>
+									<div className="cities__right-section">
+										<section className="cities__map map">
+											<Map places={places} activePlace={activePlace}/>
+										</section>
+									</div>
 								</div>
-							</div>
+							)}
 						</div>
 					</main>
 				</div>

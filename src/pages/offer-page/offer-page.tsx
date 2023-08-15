@@ -1,5 +1,4 @@
 import {Helmet} from 'react-helmet-async';
-import cn from 'classnames';
 import CommentForm from '../../components/form/comment-form';
 import Header from '../../components/header/header';
 import ReviewList from '../../components/reviews/review-list';
@@ -7,26 +6,33 @@ import Map from '../../components/map/map';
 import NearPlacesList from '../../components/near-places/near-places-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingPage from '../loading-page/loading-page';
-import { RequestStatus } from '../../const';
+import { AuthorizationStatus, RequestStatus } from '../../const';
 import { Fragment } from 'react';
 import { fetchComments, fetchNearPlaces, fetchOffer } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getOffer, getOfferFetchingStatus } from '../../store/offer-data/selectors';
 import { getNearPlaces, getNearPlacesFetchingStatus } from '../../store/near-places-data/selectors';
-import { getComments, getCommentsFetchingStatus } from '../../store/comments-data/selectors';
+import { getCommentsFetchingStatus } from '../../store/comments-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button';
+import { createUniqueInteger} from '../../utils/utils';
+import { getCurrentPlaces } from '../../store/places-data/selectors';
 
 function OfferPage(): JSX.Element {
 	const {id} = useParams();
 	const dispatch = useAppDispatch();
 	const offerFetchingStatus = useAppSelector(getOfferFetchingStatus);
 	const commentFetchingStatus = useAppSelector(getCommentsFetchingStatus);
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const nearPlacesFetchingStatus = useAppSelector(getNearPlacesFetchingStatus);
 	const currentOffer = useAppSelector(getOffer);
-	const comments = useAppSelector(getComments);
+	const	places = useAppSelector(getCurrentPlaces);
+	const currentPlace = places.find((place) => place.id === currentOffer.id);
 	const nearPlaces = useAppSelector(getNearPlaces);
+	const getRandomPlaceIndex = createUniqueInteger(0, nearPlaces.length) as () => number;
+	const randomNearPlaces = Array.from({length: 3},() => nearPlaces[getRandomPlaceIndex()]);
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
-
 
 	useEffect(() => {
 		if(id) {
@@ -35,6 +41,7 @@ function OfferPage(): JSX.Element {
 			dispatch(fetchNearPlaces(id));
 		}
 	}, [id, dispatch]);
+
 
 	return (
 		<Fragment>
@@ -63,22 +70,11 @@ function OfferPage(): JSX.Element {
 									{isPremium && <div className="offer__mark"><span>Premium</span></div>}
 									<div className="offer__name-wrapper">
 										<h1 className="offer__name">{title}</h1>
-										<button
-											className={cn(
-												'offer__bookmark-button button',
-												{'offer__bookmark-button--active': isFavorite}
-											)}
-											type="button"
-										>
-											<svg className="offer__bookmark-icon" width={31} height={33}>
-												<use xlinkHref="#icon-bookmark" />
-											</svg>
-											<span className="visually-hidden">To bookmarks</span>
-										</button>
+										<BookmarkButton id={id as string} isFavorite={isFavorite} block='offer' size='large'/>
 									</div>
 									<div className="offer__rating rating">
 										<div className="offer__stars rating__stars">
-											<span style={{width: `${rating * 20}%`}} />
+											<span style={{width: `${Math.round(rating) * 20}%`}} />
 											<span className="visually-hidden">Rating</span>
 										</div>
 										<span className="offer__rating-value rating__value">{rating}</span>
@@ -125,14 +121,14 @@ function OfferPage(): JSX.Element {
 										</div>
 									</div>
 									<section className="offer__reviews reviews">
-										<ReviewList comments={comments}/>
-										{commentFetchingStatus === RequestStatus.SUCCESS && comments && <CommentForm id={id}/>}
+										{commentFetchingStatus === RequestStatus.SUCCESS && <ReviewList/>}
+										{authorizationStatus === AuthorizationStatus.Auth && <CommentForm id={id}/>}
 									</section>
 								</div>
 							</div>
 							<section className="offer__map map">
-								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && nearPlaces && (
-									<Map places={nearPlaces}/>
+								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && nearPlaces && currentPlace && (
+									<Map places={[...randomNearPlaces, currentPlace]} activePlace={currentPlace}/>
 								)}
 							</section>
 						</section>
@@ -142,7 +138,7 @@ function OfferPage(): JSX.Element {
 									Other places in the neighbourhood
 								</h2>
 								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && nearPlaces && (
-									<NearPlacesList places={nearPlaces}/>
+									<NearPlacesList places={randomNearPlaces}/>
 								)}
 							</section>
 						</div>

@@ -45,6 +45,8 @@ export type NearPlacesData = {
 
 export type FavoritesData = {
 	favoritesFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
+	favoriteAddingStatus: typeof RequestStatus[keyof typeof RequestStatus];
+	favoriteDeletingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	favorites: Place[];
 	error: string | null;
 }
