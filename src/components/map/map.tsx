@@ -3,10 +3,10 @@ import 'leaflet/dist/leaflet.css';
 import {useEffect, useRef} from 'react';
 import {Place} from '../../types/place';
 import useMap from '../../hooks/useMap';
-import { useAppSelector } from '../../hooks';
 
 type MapProps = {
 	activePlace?: Place | undefined;
+	places: Place[];
 }
 
 const defaultCustomIcon = new Icon({
@@ -22,8 +22,7 @@ const currentCustomIcon = new Icon({
 });
 
 
-function Map({activePlace}: MapProps): JSX.Element {
-	const places = useAppSelector((state) => state.currentPlaces);
+function Map({activePlace, places}: MapProps): JSX.Element {
 
 	const location = places[0].city.location;
 

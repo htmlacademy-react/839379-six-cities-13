@@ -5,6 +5,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { FormEvent, useRef } from 'react';
 import { logIn } from '../../store/api-actions';
+import { changeCity } from '../../store/action';
 
 function LoginPage(): JSX.Element {
 	const loginRef = useRef<null | HTMLInputElement>(null);
@@ -20,6 +21,7 @@ function LoginPage(): JSX.Element {
 				login: loginRef.current.value,
 				password: passwordRef.current.value
 			}));
+			dispatch(changeCity('Paris'));
 		}
 	};
 

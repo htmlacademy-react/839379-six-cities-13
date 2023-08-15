@@ -1,102 +1,42 @@
-import {useState} from 'react';
-import { ChangeEvent } from 'react';
-
+import { Fragment, useRef } from 'react';
 
 function RatingField(): JSX.Element {
-	const [, setRating] = useState(0);
-	const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
-		setRating(Number(target.value));
+	const ratingRef = useRef<null | SVGSVGElement>(null);
+
+	const ratingValues = {
+		'1': 'terribly',
+		'2': 'badly',
+		'3': 'not bad',
+		'4': 'good',
+		'5': 'perfect',
 	};
 
 	return (
 		<div className="reviews__rating-form form__rating">
-			<input
-				onChange={handleRatingChange}
-				className="form__rating-input visually-hidden"
-				name="rating"
-				value={5}
-				id="5-stars"
-				type="radio"
-			/>
-			<label
-				htmlFor="5-stars"
-				className="reviews__rating-label form__rating-label"
-				title="perfect"
-			>
-				<svg className="form__star-image" width={37} height={33}>
-					<use xlinkHref="#icon-star" />
-				</svg>
-			</label>
-			<input
-				onChange={handleRatingChange}
-				className="form__rating-input visually-hidden"
-				name="rating"
-				value={4}
-				id="4-stars"
-				type="radio"
-			/>
-			<label
-				htmlFor="4-stars"
-				className="reviews__rating-label form__rating-label"
-				title="good"
-			>
-				<svg className="form__star-image" width={37} height={33}>
-					<use xlinkHref="#icon-star" />
-				</svg>
-			</label>
-			<input
-				onChange={handleRatingChange}
-				className="form__rating-input visually-hidden"
-				name="rating"
-				value={3}
-				id="3-stars"
-				type="radio"
-			/>
-			<label
-				htmlFor="3-stars"
-				className="reviews__rating-label form__rating-label"
-				title="not bad"
-			>
-				<svg className="form__star-image" width={37} height={33}>
-					<use xlinkHref="#icon-star" />
-				</svg>
-			</label>
-			<input
-				onChange={handleRatingChange}
-				className="form__rating-input visually-hidden"
-				name="rating"
-				value={2}
-				id="2-stars"
-				type="radio"
-			/>
-			<label
-				htmlFor="2-stars"
-				className="reviews__rating-label form__rating-label"
-				title="badly"
-			>
-				<svg className="form__star-image" width={37} height={33}>
-					<use xlinkHref="#icon-star" />
-				</svg>
-			</label>
-			<input
-				onChange={handleRatingChange}
-				className="form__rating-input visually-hidden"
-				name="rating"
-				value={1}
-				id="1-star"
-				type="radio"
-			/>
-			<label
-				htmlFor="1-star"
-				className="reviews__rating-label form__rating-label"
-				title="terribly"
-			>
-				<svg className="form__star-image" width={37} height={33}>
-					<use xlinkHref="#icon-star" />
-				</svg>
-			</label>
+			{Object.entries(ratingValues).reverse().map(([value, title]) => (
+				<Fragment key={value}>
+					<input
+						className="form__rating-input visually-hidden"
+						name="rating"
+						defaultValue={value}
+						id={`${value}-stars`}
+						type="radio"
+					/>
+					<label
+						htmlFor={`${value}-stars`}
+						className="reviews__rating-label form__rating-label"
+						title={title}
+					>
+						<svg ref={ratingRef} className="form__star-image" width="37" height="33">
+							<use xlinkHref="#icon-star"></use>
+						</svg>
+					</label>
+				</Fragment>
+			))}
 		</div>
 	);
 }
 
 export default RatingField;
+
+

@@ -12,4 +12,9 @@ export type Comment = {
 
 export type Comments = Comment[];
 
+export type NewComment = Pick<Comment, 'id' | 'comment' | 'rating'>
 
+export type CommentField = HTMLFormElement & {
+	review: HTMLTextAreaElement;
+	rating: HTMLInputElement;
+};
