@@ -5,20 +5,20 @@ import {Place} from '../../types/place';
 import useMap from '../../hooks/use-map';
 
 type MapProps = {
-	activePlace?: Place | undefined;
+	activePlace?: Place;
 	places: Place[];
 }
 
 const defaultCustomIcon = new Icon({
 	iconUrl: '../../../markup/img/pin.svg',
-	iconSize: [28, 40],
-	iconAnchor: [14, 40]
+	iconSize: [27, 39],
+	iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = new Icon({
 	iconUrl: '../../../markup/img/pin-active.svg',
-	iconSize: [28, 40],
-	iconAnchor: [14, 40]
+	iconSize: [27, 39],
+	iconAnchor: [13.5, 39]
 });
 
 

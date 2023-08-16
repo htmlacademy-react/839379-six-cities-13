@@ -6,20 +6,19 @@ import Map from '../../components/map/map';
 import NearPlacesList from '../../components/near-places/near-places-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingPage from '../loading-page/loading-page';
-import { AuthorizationStatus, RequestStatus } from '../../const';
-import { Fragment } from 'react';
+import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import { fetchComments, fetchNearPlaces, fetchOffer } from '../../store/api-actions';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+import { Fragment, useEffect } from 'react';
 import { getOffer, getOfferFetchingStatus } from '../../store/offer-data/selectors';
 import { getNearPlaces, getNearPlacesFetchingStatus } from '../../store/near-places-data/selectors';
 import { getCommentsFetchingStatus } from '../../store/comments-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
-import { createUniqueInteger} from '../../utils/utils';
+import { getRandomSlice } from '../../utils/utils';
 import { getCurrentPlaces } from '../../store/places-data/selectors';
 
-function OfferPage(): JSX.Element {
+function OfferPage(): JSX.Element | undefined {
 	const {id} = useParams();
 	const dispatch = useAppDispatch();
 	const offerFetchingStatus = useAppSelector(getOfferFetchingStatus);
@@ -30,23 +29,27 @@ function OfferPage(): JSX.Element {
 	const	places = useAppSelector(getCurrentPlaces);
 	const currentPlace = places.find((place) => place.id === currentOffer.id);
 	const nearPlaces = useAppSelector(getNearPlaces);
-	const getRandomPlaceIndex = createUniqueInteger(0, nearPlaces.length) as () => number;
-	const randomNearPlaces = Array.from({length: 3},() => nearPlaces[getRandomPlaceIndex()]);
+	const randomNearPlaces = getRandomSlice(3, nearPlaces);
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
 
 	useEffect(() => {
 		if(id) {
-			dispatch(fetchOffer(id));
-			dispatch(fetchComments(id));
-			dispatch(fetchNearPlaces(id));
+			Promise.all([
+				dispatch(fetchOffer(id)),
+				dispatch(fetchComments(id)),
+				dispatch(fetchNearPlaces(id))
+			]);
 		}
 	}, [id, dispatch]);
 
+	if(offerFetchingStatus === RequestStatus.ERROR) {
+		return <Navigate to={AppRoute.NotFound}/>;
+	}
 
 	return (
 		<Fragment>
-			{offerFetchingStatus === RequestStatus.PENDING || commentFetchingStatus === RequestStatus.PENDING || nearPlacesFetchingStatus === RequestStatus.PENDING && <LoadingPage/>}
-			{offerFetchingStatus === RequestStatus.SUCCESS && currentOffer && (
+			{(offerFetchingStatus === RequestStatus.PENDING || commentFetchingStatus === RequestStatus.PENDING || nearPlacesFetchingStatus === RequestStatus.PENDING) && <LoadingPage/>}
+			{offerFetchingStatus === RequestStatus.SUCCESS && (
 				<div className="page">
 					<Helmet><title>6 cities. Offer</title></Helmet>
 					<Header/>
@@ -93,12 +96,9 @@ function OfferPage(): JSX.Element {
 									<div className="offer__inside">
 										<h2 className="offer__inside-title">What&#39;s inside</h2>
 										<ul className="offer__inside-list">
-											{goods.map((good, index)=> {
-												const keyValue = index;
-												return (
-													<li key={keyValue} className="offer__inside-item">{good}</li>
-												);
-											})}
+											{goods.map((good)=> (
+												<li key={good} className="offer__inside-item">{good}</li>
+											))}
 										</ul>
 									</div>
 									<div className="offer__host">
@@ -127,7 +127,7 @@ function OfferPage(): JSX.Element {
 								</div>
 							</div>
 							<section className="offer__map map">
-								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && nearPlaces && currentPlace && (
+								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && randomNearPlaces && currentPlace && (
 									<Map places={[...randomNearPlaces, currentPlace]} activePlace={currentPlace}/>
 								)}
 							</section>

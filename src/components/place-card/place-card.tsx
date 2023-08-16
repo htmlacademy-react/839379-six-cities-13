@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
 import BookmarkButton from '../bookmark-button/bookmark-button';
+import { capitalize } from '../../utils/utils';
 
 type PlaceCardProps = {
 	className: string;
@@ -48,7 +49,7 @@ function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Ele
 				<h2 className="place-card__name">
 					<Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
 				</h2>
-				<p className="place-card__type">{type}</p>
+				<p className="place-card__type">{capitalize(type)}</p>
 			</div>
 		</article>
 	);

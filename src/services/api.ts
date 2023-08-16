@@ -1,9 +1,8 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
-import {AppRoute, BASE_URL, TIMEOUT} from '../const';
+import {BASE_URL, TIMEOUT} from '../const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
-import browserHistory from '../browser-history';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,
@@ -12,9 +11,9 @@ const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.CONFLICT]: true,
 };
 
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+export const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
-type DetailMessageType = {
+export type DetailMessageType = {
   type: string;
   message: string;
 }
@@ -41,9 +40,6 @@ export const createAPI = (): AxiosInstance => {
 				const detailMessage = (error.response.data);
 
 				toast.warn(detailMessage.message);
-			}
-			if(error.response?.status === StatusCodes.NOT_FOUND) {
-				browserHistory.push(AppRoute.NotFound);
 			}
 
 			throw error;

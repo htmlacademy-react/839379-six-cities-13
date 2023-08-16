@@ -6,18 +6,29 @@ export const getRandomInteger = (min:number, max:number) => {
 	return Math.floor(result);
 };
 
-export const createUniqueInteger = (min:number, max:number) => {
-	const previousValues: number[] = [] ;
-	return function () {
-		let currentValue = getRandomInteger(min, max);
-		if (previousValues.length >= (max - min + 1)) {
-			return null;
-		}
-		while (previousValues.includes(currentValue)) {
-			currentValue = getRandomInteger(min, max);
-		}
-		previousValues.push(currentValue);
+const randomElement = <El>(elements: El[] | readonly El[]) => elements[getRandomInteger(0, elements.length - 1)];
 
-		return currentValue;
-	};
+export const getRandomSlice = <El>(size:number, elements: El[]) => {
+	if(size > elements.length) {
+		return elements;
+	}
+	const result: El[] = [];
+
+	while(result.length < size) {
+		let element = randomElement(elements);
+		while(result.includes(element)) {
+			element = randomElement(elements);
+		}
+		result.push(element);
+	}
+	return result;
 };
+
+export const capitalize = (word: string) => {
+	if (!word) {
+		return word;
+	}
+
+	return word[0].toUpperCase() + word.slice(1);
+};
+

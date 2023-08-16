@@ -1,9 +1,11 @@
 import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import { useNavigate } from 'react-router-dom';
 import { addFavorite, deleteFavorite } from '../../store/api-actions';
+import { useState } from 'react';
+import { getFavoriteAddingStatus, getFavoriteDeletingStatus } from '../../store/favorites-data/selectors';
 
 type BookmarkButtonSize = 'small' | 'large';
 
@@ -23,18 +25,18 @@ const BookmarkButton = ({id, isFavorite, block, size}: BookmarkProps) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
+	const favoriteAddingStatus = useAppSelector(getFavoriteAddingStatus);
+	const favoriteDeletingStatus = useAppSelector(getFavoriteDeletingStatus);
+	const [isActive, setActive] = useState(isFavorite);
 
 	const handleClick = () => {
 		if(authorizationStatus !== AuthorizationStatus.Auth) {
 			navigate(AppRoute.Login);
 			return;
 		}
-		if(!isFavorite) {
-			dispatch(addFavorite(id));
 
-		} else{
-			dispatch(deleteFavorite(id));
-		}
+		dispatch(isActive ? deleteFavorite(id) : addFavorite(id));
+		setActive((previous) => !previous);
 	};
 
 	return (
@@ -42,16 +44,17 @@ const BookmarkButton = ({id, isFavorite, block, size}: BookmarkProps) => {
 			onClick={handleClick}
 			className={cn(
 				`${block}__bookmark-button`, 'button',
-				{[`${block}__bookmark-button--active`]: isFavorite}
+				{[`${block}__bookmark-button--active`]: isActive}
 			)}
 			type="button"
+			disabled={favoriteAddingStatus === RequestStatus.PENDING || favoriteDeletingStatus === RequestStatus.PENDING }
 		>
 			<svg
 				className={`${block}__bookmark-icon`} {...sizeMap[size]}
 			>
 				<use xlinkHref="#icon-bookmark" />
 			</svg>
-			<span className="visually-hidden">To bookmarks</span>
+			<span className="visually-hidden">{isActive ? 'In' : 'To'} bookmarks</span>
 		</button>
 	);
 };

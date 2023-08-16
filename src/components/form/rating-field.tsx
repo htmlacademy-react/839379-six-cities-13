@@ -1,7 +1,10 @@
-import { Fragment, useRef } from 'react';
+import { ChangeEvent, Fragment } from 'react';
 
-function RatingField(): JSX.Element {
-	const ratingRef = useRef<null | SVGSVGElement>(null);
+type RatingFieldProps = {
+	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function RatingField({onChange} : RatingFieldProps): JSX.Element {
 
 	const ratingValues = {
 		'1': 'terribly',
@@ -16,6 +19,7 @@ function RatingField(): JSX.Element {
 			{Object.entries(ratingValues).reverse().map(([value, title]) => (
 				<Fragment key={value}>
 					<input
+						onChange={onChange}
 						className="form__rating-input visually-hidden"
 						name="rating"
 						defaultValue={value}
@@ -27,7 +31,7 @@ function RatingField(): JSX.Element {
 						className="reviews__rating-label form__rating-label"
 						title={title}
 					>
-						<svg ref={ratingRef} className="form__star-image" width="37" height="33">
+						<svg className="form__star-image" width="37" height="33">
 							<use xlinkHref="#icon-star"></use>
 						</svg>
 					</label>

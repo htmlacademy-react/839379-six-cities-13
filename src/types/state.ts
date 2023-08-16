@@ -5,12 +5,14 @@ import { RequestStatus } from '../const';
 import { AuthorizationStatus } from '../const';
 import { Offer } from './offer';
 import { Comments } from './comments';
+import { UserInfo } from './user-data';
 
 export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
 export type UserData = {
+	user: UserInfo;
 	authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
 	error: string | null;
 };

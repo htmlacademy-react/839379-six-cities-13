@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import RatingField from './rating-field';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendComment } from '../../store/api-actions';
@@ -13,9 +13,19 @@ type CommentFormProps = {
 function CommentForm({id}: CommentFormProps): JSX.Element {
 	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
 	const dispatch = useAppDispatch();
+	const [text, setText] = useState('');
+	const [rating, setRating] = useState('');
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
-	const isDisabled = commentSendingStatus === RequestStatus.PENDING;
+	const isDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < 50 || text.length > 300 || rating === '';
+
+	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+		setText(event.target.value);
+	};
+
+	const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setRating(event.target.value);
+	};
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -32,6 +42,8 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	useEffect(() => {
 		if(isSuccess) {
 			formRef.current?.reset();
+			setText('');
+			setRating('');
 		}
 	}, [isSuccess]);
 
@@ -40,12 +52,14 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<RatingField/>
+			<RatingField onChange={handleRatingChange}/>
 			<textarea
+				onChange={handleTextChange}
 				className="reviews__textarea form__textarea"
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
+				value={text}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">

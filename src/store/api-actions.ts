@@ -5,7 +5,7 @@ import { APIRoute } from '../const';
 import { Place } from '../types/place';
 import { AuthData } from '../types/auth-data';
 import { dropToken, saveToken } from '../services/token';
-import { UserData } from '../types/user-data';
+import { UserInfo } from '../types/user-data';
 import { Offer } from '../types/offer';
 import {Comment, Comments, NewComment} from '../types/comments';
 
@@ -72,15 +72,17 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, {
 	}
 );
 
-export const logIn = createAsyncThunk<void, AuthData, {
+export const logIn = createAsyncThunk<UserInfo, AuthData, {
 	dispatch: AppDispatch;
 	state: State;
 	extra: AxiosInstance;
 }>(
 	'login',
 	async({login: email, password}, {extra: api}) => {
-		const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-		saveToken(token);
+		const {data} = await api.post<UserInfo>(APIRoute.Login, {email, password});
+		saveToken(data.token);
+
+		return data;
 	}
 );
 
