@@ -12,7 +12,7 @@ function PlaceCardList({onPlace, outPlace}: PlaceCardListProps): JSX.Element {
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
-			{places.map((place) => <PlaceCard className='cities' key={place.id} info={place} onPlace={onPlace} outPlace={outPlace}/>)}
+			{places.map((place) => <PlaceCard className='cities' key={place.id} info={place} width={260} height={200} onPlace={onPlace} outPlace={outPlace}/>)}
 		</div>
 	);
 }

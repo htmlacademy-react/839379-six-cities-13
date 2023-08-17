@@ -2,81 +2,55 @@ import {Helmet} from 'react-helmet-async';
 import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
 import { getFavorites } from '../../store/favorites-data/selectors';
-import BookmarkButton from '../../components/bookmark-button/bookmark-button';
+import EmptyFavoritesList from '../../components/empty-favorites-list/empty-favorites-list';
+import cn from 'classnames';
+import PlaceCard from '../../components/place-card/place-card';
 
 function FavoritePage(): JSX.Element {
 	const favoritePlaces = useAppSelector(getFavorites);
 	const uniqCities = [...new Set(favoritePlaces.map((place) => place.city.name))];
 
 	return (
-		<div className="page">
+		<div className={cn(
+			'page',
+			{'page--favorites-empty': favoritePlaces.length === 0}
+		)}
+		>
 			<Helmet><title>6 cities. Favorites</title></Helmet>
 			<Header/>
-			<main className="page__main page__main--favorites">
-				<div className="page__favorites-container container">
-					<section className="favorites">
-						<h1 className="favorites__title">Saved listing</h1>
-						<ul className="favorites__list">
-							{uniqCities.map((city) => {
-								const keyValue = city;
+			{favoritePlaces.length === 0 ? <EmptyFavoritesList/> : (
+				<main className="page__main page__main--favorites">
+					<div className="page__favorites-container container">
+						<section className="favorites">
+							<h1 className="favorites__title">Saved listing</h1>
+							<ul className="favorites__list">
+								{uniqCities.map((city) => {
+									const keyValue = city;
 
-								return (
-									<li key={keyValue} className="favorites__locations-items">
-										<div className="favorites__locations locations locations--current">
-											<div className="locations__item">
-												<a className="locations__item-link" href="#">
-													<span>{city}</span>
-												</a>
+									return (
+										<li key={keyValue} className="favorites__locations-items">
+											<div className="favorites__locations locations locations--current">
+												<div className="locations__item">
+													<a className="locations__item-link" href="#">
+														<span>{city}</span>
+													</a>
+												</div>
 											</div>
-										</div>
-										<div className="favorites__places">
-											{favoritePlaces
-												.filter((place) => place.city.name === city)
-												.map((place) => (
-													<article key={place.id} className="favorites__card place-card">
-														{place.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-														<div className="favorites__image-wrapper place-card__image-wrapper">
-															<a href="#">
-																<img
-																	className="place-card__image"
-																	src={place.previewImage}
-																	width={150}
-																	height={110}
-																	alt="Place image"
-																/>
-															</a>
-														</div>
-														<div className="favorites__card-info place-card__info">
-															<div className="place-card__price-wrapper">
-																<div className="place-card__price">
-																	<b className="place-card__price-value">€{place.price}</b>
-																	<span className="place-card__price-text">
-																		/&nbsp;night
-																	</span>
-																</div>
-																<BookmarkButton isFavorite id={place.id} block='place-card' size='small' />
-															</div>
-															<div className="place-card__rating rating">
-																<div className="place-card__stars rating__stars">
-																	<span style={{ width: `${place.rating * 20}%`}} />
-																	<span className="visually-hidden">Rating</span>
-																</div>
-															</div>
-															<h2 className="place-card__name">
-																<a href="#">{place.title}</a>
-															</h2>
-															<p className="place-card__type">{place.type}</p>
-														</div>
-													</article>
-												))}
-										</div>
-									</li>
-								);
-							})}
-						</ul>
-					</section>
-				</div>
-			</main>
+											<div className="favorites__places">
+												{favoritePlaces
+													.filter((place) => place.city.name === city)
+													.map((place) => (
+														<PlaceCard key={place.id} className='favorites' info={place} width={150} height={110}/>
+													))}
+											</div>
+										</li>
+									);
+								})}
+							</ul>
+						</section>
+					</div>
+				</main>
+			)}
 			<footer className="footer container">
 				<a className="footer__logo-link" href="main.html">
 					<img

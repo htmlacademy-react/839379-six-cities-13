@@ -12,6 +12,7 @@ import { RequestStatus } from '../../const';
 import useActivePlace from '../../hooks/use-active-place';
 import { getCity, getCurrentPlaces, getPlacesFetchingStatus } from '../../store/places-data/selectors';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
+import cn from 'classnames';
 
 function MainPage(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -31,7 +32,11 @@ function MainPage(): JSX.Element {
 				<div className="page page--gray page--main">
 					<Helmet><title>6 cities. Main</title></Helmet>
 					<Header/>
-					<main className="page__main page__main--index">
+					<main className={cn(
+						'page__main page__main--index',
+						{'page__main--index-empty': places.length === 0}
+					)}
+					>
 						<h1 className="visually-hidden">Cities</h1>
 						<CityList/>
 						<div className="cities">

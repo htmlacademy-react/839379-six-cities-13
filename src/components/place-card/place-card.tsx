@@ -3,15 +3,18 @@ import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import { capitalize } from '../../utils/utils';
+import cn from 'classnames';
 
 type PlaceCardProps = {
 	className: string;
 	info: Place;
+	width: number;
+	height: number;
 	onPlace?: (id:string) => void;
 	outPlace?: () => void;
 }
 
-function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
+function PlaceCard({className, info, width, height, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
 
 	return (
@@ -26,13 +29,17 @@ function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Ele
 					<img
 						className="place-card__image"
 						src={previewImage}
-						width={260}
-						height={200}
+						width={width}
+						height={height}
 						alt="Place image"
 					/>
 				</Link>
 			</div>
-			<div className="place-card__info">
+			<div className={cn(
+				'place-card__info',
+				{'favorites__card-info': className === 'favorites'}
+			)}
+			>
 				<div className="place-card__price-wrapper">
 					<div className="place-card__price">
 						<b className="place-card__price-value">€{price}</b>
