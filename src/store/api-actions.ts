@@ -8,15 +8,17 @@ import { dropToken, saveToken } from '../services/token';
 import { UserInfo } from '../types/user-data';
 import { Offer } from '../types/offer';
 import {Comment, Comments, NewComment} from '../types/comments';
+import { ErrorMessage } from '../types/error';
 
-export const fetchOffer = createAsyncThunk<Offer, string, {
+
+export const fetchOffer = createAsyncThunk<Offer | ErrorMessage, string, {
 	dispatch: AppDispatch;
 	state: State;
 	extra: AxiosInstance;
 }>(
 	'fetchOffer',
 	async (id, {extra: api}) => {
-		const {data} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+		const {data} = await api.get<Offer | ErrorMessage>(`${APIRoute.Offers}/${id}`);
 
 		return data;
 	}
@@ -61,14 +63,16 @@ export const fetchOffers = createAsyncThunk<Place[], undefined, {
 	}
 );
 
-export const checkAuthStatus = createAsyncThunk<void, undefined, {
+export const checkAuthStatus = createAsyncThunk<UserInfo, undefined, {
 	dispatch: AppDispatch;
 	state: State;
 	extra: AxiosInstance;
 }>(
 	'checkAuth',
 	async(_arg, {extra: api}) => {
-		await api.get(APIRoute.Login);
+		const {data} = await api.get<UserInfo>(APIRoute.Login);
+
+		return data;
 	}
 );
 

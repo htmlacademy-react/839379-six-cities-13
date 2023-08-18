@@ -1,7 +1,8 @@
-import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import {BASE_URL, TIMEOUT} from '../const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
+import { ErrorMessage } from '../types/error';
 import { toast } from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
@@ -12,11 +13,6 @@ const StatusCodeMapping: Record<number, boolean> = {
 };
 
 export const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
-
-export type DetailMessageType = {
-  type: string;
-  message: string;
-}
 
 export const createAPI = (): AxiosInstance => {
 	const api = axios.create({
@@ -35,7 +31,7 @@ export const createAPI = (): AxiosInstance => {
 
 	api.interceptors.response.use(
 		(response) => response,
-		(error: AxiosError<DetailMessageType>) => {
+		(error: AxiosError<ErrorMessage>) => {
 			if (error.response && shouldDisplayError(error.response)) {
 				const detailMessage = (error.response.data);
 

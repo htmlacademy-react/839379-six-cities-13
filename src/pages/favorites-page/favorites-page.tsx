@@ -1,15 +1,23 @@
 import {Helmet} from 'react-helmet-async';
 import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
-import { getFavorites } from '../../store/favorites-data/selectors';
+import { getFavorites, getFavoritesFetchingStatus } from '../../store/favorites-data/selectors';
 import EmptyFavoritesList from '../../components/empty-favorites-list/empty-favorites-list';
 import cn from 'classnames';
 import PlaceCard from '../../components/place-card/place-card';
 import Footer from '../../components/footer/footer';
+import { RequestStatus } from '../../const';
+import LoadingPage from '../loading-page/loading-page';
 
 function FavoritePage(): JSX.Element {
+	const favoritesFetchingStatus = useAppSelector(getFavoritesFetchingStatus);
+
 	const favoritePlaces = useAppSelector(getFavorites);
 	const uniqCities = [...new Set(favoritePlaces.map((place) => place.city.name))];
+
+	if(favoritesFetchingStatus === RequestStatus.PENDING) {
+		return <LoadingPage/>;
+	}
 
 	return (
 		<div className={cn(

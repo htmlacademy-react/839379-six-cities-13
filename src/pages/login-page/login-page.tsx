@@ -12,8 +12,8 @@ function LoginPage(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const loginRef = useRef<null | HTMLInputElement>(null);
 	const passwordRef = useRef<null | HTMLInputElement>(null);
-	const authStatus = useAppSelector(getAuthorizationStatus);
-	const isAuth = authStatus === AuthorizationStatus.Auth;
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
+	const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
 	const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

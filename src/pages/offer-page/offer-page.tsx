@@ -40,7 +40,7 @@ function OfferPage(): JSX.Element | undefined {
 				dispatch(fetchNearPlaces(id))
 			]);
 		}
-	}, [id, dispatch]);
+	}, [authorizationStatus, id, dispatch]);
 
 	if(offerFetchingStatus === RequestStatus.ERROR) {
 		return <Navigate to={AppRoute.NotFound}/>;

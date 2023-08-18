@@ -4,6 +4,7 @@ import { OfferData } from '../../types/state';
 import { Offer } from '../../types/offer';
 import { RequestStatus } from '../../const';
 import { fetchOffer } from '../api-actions';
+// import { ErrorMessage } from '../../types/error';
 
 const initialState: OfferData = {
 	currentOffer: {} as Offer,
@@ -22,7 +23,7 @@ export const offerData = createSlice({
 			})
 			.addCase(fetchOffer.fulfilled, (state, action) => {
 				state.offerFetchingStatus = RequestStatus.SUCCESS;
-				state.currentOffer = action.payload;
+				state.currentOffer = action.payload as Offer;
 			})
 			.addCase(fetchOffer.rejected, (state) => {
 				state.offerFetchingStatus = RequestStatus.ERROR;

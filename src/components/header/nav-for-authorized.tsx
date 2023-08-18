@@ -30,7 +30,7 @@ function NavForAuthorized(): JSX.Element | undefined {
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link onClick={handleClick} className="header__nav-link" to={AppRoute.Login}>
+				<Link onClick={handleClick} className="header__nav-link" to='#'>
 					<span className="header__signout">Sign out</span>
 				</Link>
 			</li>

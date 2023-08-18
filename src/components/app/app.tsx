@@ -5,10 +5,23 @@ import FavoritePage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import {HelmetProvider} from 'react-helmet-async';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { useEffect } from 'react';
+import { fetchFavorites } from '../../store/api-actions';
 
 function App(): JSX.Element {
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		if(authorizationStatus === AuthorizationStatus.Auth) {
+			dispatch(fetchFavorites());
+		}
+	}, [authorizationStatus, dispatch]);
+
 	return (
 		<HelmetProvider>
 			<BrowserRouter>

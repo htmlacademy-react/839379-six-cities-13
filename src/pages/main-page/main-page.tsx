@@ -13,17 +13,19 @@ import useActivePlace from '../../hooks/use-active-place';
 import { getCity, getCurrentPlaces, getPlacesFetchingStatus } from '../../store/places-data/selectors';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
 import cn from 'classnames';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function MainPage(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const placesFetchingStatus = useAppSelector(getPlacesFetchingStatus);
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const city = useAppSelector(getCity);
 	const places = useAppSelector(getCurrentPlaces);
 	const [activePlace, handleMouseOver, handleMouseOut] = useActivePlace(places);
 
 	useEffect(() => {
 		dispatch(fetchOffers());
-	}, [dispatch]);
+	}, [authorizationStatus, dispatch]);
 
 	return (
 		<Fragment>

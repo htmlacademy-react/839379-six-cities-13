@@ -14,6 +14,7 @@ export type AppDispatch = typeof store.dispatch;
 export type UserData = {
 	user: UserInfo;
 	authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
+	checkAuthStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	error: string | null;
 };
 
