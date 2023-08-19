@@ -6,6 +6,10 @@ import { CommentField } from '../../types/comments';
 import { RequestStatus } from '../../const';
 import { getCommentsSendingStatus } from '../../store/comments-data/selectors';
 
+const MIN_TEXT_LENGTH = 50;
+const MAX_TEXT_LENGTH = 300;
+
+
 type CommentFormProps = {
 	id: string | undefined;
 }
@@ -17,7 +21,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	const [rating, setRating] = useState('');
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
-	const isDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < 50 || text.length > 300 || rating === '';
+	const isDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
 
 	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(event.target.value);
