@@ -1,9 +1,9 @@
-import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
-import {AppRoute, BASE_URL, TIMEOUT} from '../const';
+import axios, { AxiosError, AxiosInstance, AxiosResponse} from 'axios';
+import {BASE_URL, TIMEOUT} from '../const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
-import { processErrorHandle } from './process-error-handle';
-import browserHistory from '../browser-history';
+import { ErrorMessage } from '../types/error';
+import { toast } from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,
@@ -12,12 +12,7 @@ const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.CONFLICT]: true,
 };
 
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
-
-type DetailMessageType = {
-  type: string;
-  message: string;
-}
+export const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
 export const createAPI = (): AxiosInstance => {
 	const api = axios.create({
@@ -36,14 +31,11 @@ export const createAPI = (): AxiosInstance => {
 
 	api.interceptors.response.use(
 		(response) => response,
-		(error: AxiosError<DetailMessageType>) => {
+		(error: AxiosError<ErrorMessage>) => {
 			if (error.response && shouldDisplayError(error.response)) {
 				const detailMessage = (error.response.data);
 
-				processErrorHandle(detailMessage.message);
-			}
-			if(error.response?.status === StatusCodes.NOT_FOUND) {
-				browserHistory.push(AppRoute.NotFound);
+				toast.warn(detailMessage.message);
 			}
 
 			throw error;

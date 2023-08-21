@@ -1,19 +1,36 @@
-import { FormEvent, useRef } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import RatingField from './rating-field';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendComment } from '../../store/api-actions';
 import { CommentField } from '../../types/comments';
 import { RequestStatus } from '../../const';
+import { getCommentsSendingStatus } from '../../store/comments-data/selectors';
+
+const MIN_TEXT_LENGTH = 50;
+const MAX_TEXT_LENGTH = 300;
+
 
 type CommentFormProps = {
 	id: string | undefined;
 }
 
 function CommentForm({id}: CommentFormProps): JSX.Element {
-	const commentSendingStatus = useAppSelector((state) => state.commentSendingStatus);
+	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
 	const dispatch = useAppDispatch();
-	const commentRef = useRef<HTMLTextAreaElement | null>(null);
-	const buttonRef = useRef<HTMLButtonElement| null>(null);
+	const [text, setText] = useState('');
+	const [rating, setRating] = useState('');
+	const formRef = useRef<HTMLFormElement | null>(null);
+	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
+	const isFormDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
+	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
+
+	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+		setText(event.target.value);
+	};
+
+	const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setRating(event.target.value);
+	};
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -27,27 +44,28 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 		}
 	};
 
-	if(commentSendingStatus === RequestStatus.PENDING && buttonRef.current) {
-		buttonRef.current.disabled = true;
-	}
-
-	if(commentSendingStatus === RequestStatus.SUCCESS && commentRef.current && buttonRef.current) {
-		commentRef.current.value = '';
-		buttonRef.current.disabled = false;
-	}
+	useEffect(() => {
+		if(isSuccess) {
+			formRef.current?.reset();
+			setText('');
+			setRating('');
+		}
+	}, [isSuccess]);
 
 	return (
-		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
+		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post" ref={formRef}>
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<RatingField/>
+			<RatingField onChange={handleRatingChange}/>
 			<textarea
-				ref={commentRef}
+				onChange={handleTextChange}
 				className="reviews__textarea form__textarea"
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
+				value={text}
+				disabled={isInputDisabled}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">
@@ -56,9 +74,10 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 					your stay with at least{' '}
 					<b className="reviews__text-amount">50 characters</b>.
 				</p>
-				<button ref={buttonRef}
+				<button
 					className="reviews__submit form__submit button"
 					type="submit"
+					disabled={isFormDisabled}
 				>
 					Submit
 				</button>

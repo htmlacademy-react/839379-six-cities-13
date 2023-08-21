@@ -1,7 +1,15 @@
-import { Fragment, useRef } from 'react';
+import { ChangeEvent, Fragment } from 'react';
+import { useAppSelector } from '../../hooks';
+import { getCommentsSendingStatus } from '../../store/comments-data/selectors';
+import { RequestStatus } from '../../const';
 
-function RatingField(): JSX.Element {
-	const ratingRef = useRef<null | SVGSVGElement>(null);
+type RatingFieldProps = {
+	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function RatingField({onChange} : RatingFieldProps): JSX.Element {
+	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
+	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
 
 	const ratingValues = {
 		'1': 'terribly',
@@ -16,18 +24,20 @@ function RatingField(): JSX.Element {
 			{Object.entries(ratingValues).reverse().map(([value, title]) => (
 				<Fragment key={value}>
 					<input
+						onChange={onChange}
 						className="form__rating-input visually-hidden"
 						name="rating"
 						defaultValue={value}
 						id={`${value}-stars`}
 						type="radio"
+						disabled={isInputDisabled}
 					/>
 					<label
 						htmlFor={`${value}-stars`}
 						className="reviews__rating-label form__rating-label"
 						title={title}
 					>
-						<svg ref={ratingRef} className="form__star-image" width="37" height="33">
+						<svg className="form__star-image" width="37" height="33">
 							<use xlinkHref="#icon-star"></use>
 						</svg>
 					</label>

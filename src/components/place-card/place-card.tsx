@@ -1,16 +1,20 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
+import BookmarkButton from '../bookmark-button/bookmark-button';
+import { capitalize } from '../../utils/utils';
 import cn from 'classnames';
 
 type PlaceCardProps = {
 	className: string;
 	info: Place;
-	onPlace?: (info:string) => void;
+	width: number;
+	height: number;
+	onPlace?: (id:string) => void;
 	outPlace?: () => void;
 }
 
-function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Element {
+function PlaceCard({className, info, width, height, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
 
 	return (
@@ -25,45 +29,34 @@ function PlaceCard({className, info, onPlace, outPlace}:PlaceCardProps): JSX.Ele
 					<img
 						className="place-card__image"
 						src={previewImage}
-						width={260}
-						height={200}
+						width={width}
+						height={height}
 						alt="Place image"
 					/>
 				</Link>
 			</div>
-			<div className="place-card__info">
+			<div className={cn(
+				'place-card__info',
+				{'favorites__card-info': className === 'favorites'}
+			)}
+			>
 				<div className="place-card__price-wrapper">
 					<div className="place-card__price">
 						<b className="place-card__price-value">€{price}</b>
 						<span className="place-card__price-text">/&nbsp;night</span>
 					</div>
-					<button
-						className={cn(
-							'place-card__bookmark-button button',
-							{'place-card__bookmark-button--active': isFavorite}
-						)}
-						type="button"
-					>
-						<svg
-							className="place-card__bookmark-icon"
-							width={18}
-							height={19}
-						>
-							<use xlinkHref="#icon-bookmark" />
-						</svg>
-						<span className="visually-hidden">To bookmarks</span>
-					</button>
+					<BookmarkButton isFavorite={isFavorite} id={id} block='place-card' size='small' />
 				</div>
 				<div className="place-card__rating rating">
 					<div className="place-card__stars rating__stars">
-						<span style={{ width: `${rating * 20}%` }} />
+						<span style={{ width: `${Math.round(rating) * 20}%` }} />
 						<span className="visually-hidden">Rating</span>
 					</div>
 				</div>
 				<h2 className="place-card__name">
 					<Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
 				</h2>
-				<p className="place-card__type">{type}</p>
+				<p className="place-card__type">{capitalize(type)}</p>
 			</div>
 		</article>
 	);

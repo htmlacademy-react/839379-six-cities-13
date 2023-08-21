@@ -1,11 +1,16 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logOut } from '../../store/api-actions';
+import { getFavorites } from '../../store/favorites-data/selectors';
+import { getUserInfo } from '../../store/user-data/selectors';
 
-function NavForAuthorized(): JSX.Element {
+function NavForAuthorized(): JSX.Element | undefined {
 	const dispatch = useAppDispatch();
+	const favorites = useAppSelector(getFavorites);
+	const userInfo = useAppSelector(getUserInfo);
+
 	const handleClick = () => {
 		dispatch(logOut());
 	};
@@ -19,13 +24,13 @@ function NavForAuthorized(): JSX.Element {
 				>
 					<div className="header__avatar-wrapper user__avatar-wrapper"></div>
 					<span className="header__user-name user__name">
-						Oliver.conner@gmail.com
+						{userInfo.email}
 					</span>
-					<span className="header__favorite-count">3</span>
+					<span className="header__favorite-count">{favorites.length}</span>
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link onClick={handleClick} className="header__nav-link" to={AppRoute.Login}>
+				<Link onClick={handleClick} className="header__nav-link" to='#'>
 					<span className="header__signout">Sign out</span>
 				</Link>
 			</li>

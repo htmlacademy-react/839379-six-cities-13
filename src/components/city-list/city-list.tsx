@@ -2,12 +2,13 @@ import {cities} from '../../const';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/places-data/places-data';
+import { getCity } from '../../store/places-data/selectors';
 
 function CityList():JSX.Element {
 
 	const dispatch = useAppDispatch();
-	const currentCity = useAppSelector((state) => state.city);
+	const currentCity = useAppSelector(getCity);
 
 	return (
 		<div className="tabs">
