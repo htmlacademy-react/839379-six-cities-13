@@ -11,7 +11,6 @@ import LoadingPage from '../loading-page/loading-page';
 
 function FavoritePage(): JSX.Element {
 	const favoritesFetchingStatus = useAppSelector(getFavoritesFetchingStatus);
-
 	const favoritePlaces = useAppSelector(getFavorites);
 	const uniqCities = [...new Set(favoritePlaces.map((place) => place.city.name))];
 
