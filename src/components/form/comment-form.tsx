@@ -21,7 +21,8 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	const [rating, setRating] = useState('');
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
-	const isDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
+	const isFormDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
+	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
 
 	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(event.target.value);
@@ -64,6 +65,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
 				value={text}
+				disabled={isInputDisabled}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">
@@ -75,7 +77,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 				<button
 					className="reviews__submit form__submit button"
 					type="submit"
-					disabled={isDisabled}
+					disabled={isFormDisabled}
 				>
 					Submit
 				</button>

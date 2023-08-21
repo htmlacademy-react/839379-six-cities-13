@@ -3,10 +3,11 @@ import 'leaflet/dist/leaflet.css';
 import {useEffect, useRef} from 'react';
 import {Place} from '../../types/place';
 import useMap from '../../hooks/use-map';
+import { Offer } from '../../types/offer';
 
 type MapProps = {
-	activePlace?: Place;
-	places: Place[];
+	activePlace?: Place | Offer;
+	places: Array<Place | Offer>;
 }
 
 const defaultCustomIcon = new Icon({

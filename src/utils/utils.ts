@@ -32,3 +32,4 @@ export const capitalize = (word: string) => {
 	return word[0].toUpperCase() + word.slice(1);
 };
 
+export const pluralIntl = new Intl.PluralRules('en-US');

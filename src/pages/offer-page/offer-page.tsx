@@ -15,8 +15,7 @@ import { getNearPlaces, getNearPlacesFetchingStatus } from '../../store/near-pla
 import { getCommentsFetchingStatus } from '../../store/comments-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
-import { getRandomSlice } from '../../utils/utils';
-import { getCurrentPlaces } from '../../store/places-data/selectors';
+import { capitalize, getRandomSlice } from '../../utils/utils';
 
 function OfferPage(): JSX.Element | undefined {
 	const {id} = useParams();
@@ -26,8 +25,6 @@ function OfferPage(): JSX.Element | undefined {
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const nearPlacesFetchingStatus = useAppSelector(getNearPlacesFetchingStatus);
 	const currentOffer = useAppSelector(getOffer);
-	const	places = useAppSelector(getCurrentPlaces);
-	const currentPlace = places.find((place) => place.id === currentOffer.id);
 	const nearPlaces = useAppSelector(getNearPlaces);
 	const randomNearPlaces = getRandomSlice(3, nearPlaces);
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
@@ -83,7 +80,7 @@ function OfferPage(): JSX.Element | undefined {
 										<span className="offer__rating-value rating__value">{rating}</span>
 									</div>
 									<ul className="offer__features">
-										<li className="offer__feature offer__feature--entire">{type}</li>
+										<li className="offer__feature offer__feature--entire">{capitalize(type)}</li>
 										<li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedrooms</li>
 										<li className="offer__feature offer__feature--adults">
 											Max {maxAdults} adults
@@ -97,7 +94,7 @@ function OfferPage(): JSX.Element | undefined {
 										<h2 className="offer__inside-title">What&#39;s inside</h2>
 										<ul className="offer__inside-list">
 											{goods.map((good)=> (
-												<li key={good} className="offer__inside-item">{good}</li>
+												<li key={good} className="offer__inside-item">{capitalize(good)}</li>
 											))}
 										</ul>
 									</div>
@@ -127,8 +124,8 @@ function OfferPage(): JSX.Element | undefined {
 								</div>
 							</div>
 							<section className="offer__map map">
-								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && randomNearPlaces && currentPlace && (
-									<Map places={[...randomNearPlaces, currentPlace]} activePlace={currentPlace}/>
+								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && randomNearPlaces && currentOffer && (
+									<Map places={[...randomNearPlaces, currentOffer]} activePlace={currentOffer}/>
 								)}
 							</section>
 						</section>

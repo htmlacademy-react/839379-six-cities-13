@@ -1,10 +1,15 @@
 import { ChangeEvent, Fragment } from 'react';
+import { useAppSelector } from '../../hooks';
+import { getCommentsSendingStatus } from '../../store/comments-data/selectors';
+import { RequestStatus } from '../../const';
 
 type RatingFieldProps = {
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function RatingField({onChange} : RatingFieldProps): JSX.Element {
+	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
+	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
 
 	const ratingValues = {
 		'1': 'terribly',
@@ -25,6 +30,7 @@ function RatingField({onChange} : RatingFieldProps): JSX.Element {
 						defaultValue={value}
 						id={`${value}-stars`}
 						type="radio"
+						disabled={isInputDisabled}
 					/>
 					<label
 						htmlFor={`${value}-stars`}

@@ -14,6 +14,7 @@ import { getCity, getCurrentPlaces, getPlacesFetchingStatus } from '../../store/
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
 import cn from 'classnames';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { pluralIntl } from '../../utils/utils';
 
 function MainPage(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -22,6 +23,14 @@ function MainPage(): JSX.Element {
 	const city = useAppSelector(getCity);
 	const places = useAppSelector(getCurrentPlaces);
 	const [activePlace, handleMouseOver, handleMouseOut] = useActivePlace(places);
+
+	const getPlaceWord = (count: number) => {
+		const pluralKey = pluralIntl.select(count);
+		if(pluralKey === 'one') {
+			return 'place';
+		}
+		return 'places';
+	};
 
 	useEffect(() => {
 		dispatch(fetchOffers());
@@ -46,7 +55,7 @@ function MainPage(): JSX.Element {
 								<div className="cities__places-container container">
 									<section className="cities__places places">
 										<h2 className="visually-hidden">Places</h2>
-										<b className="places__found">{places.length} places to stay in {city}</b>
+										<b className="places__found">{places.length} {getPlaceWord(places.length)} to stay in {city}</b>
 										<Sorting/>
 										<PlaceCardList onPlace={handleMouseOver} outPlace={handleMouseOut}/>
 									</section>
