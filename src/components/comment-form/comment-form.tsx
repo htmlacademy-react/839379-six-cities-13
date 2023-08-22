@@ -32,7 +32,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 		setRating(event.target.value);
 	};
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const form = event.currentTarget as CommentField;
 		if(id) {
@@ -53,7 +53,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	}, [isSuccess]);
 
 	return (
-		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post" ref={formRef}>
+		<form onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post" ref={formRef}>
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>

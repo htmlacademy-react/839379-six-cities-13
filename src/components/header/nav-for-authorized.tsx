@@ -11,7 +11,7 @@ function NavForAuthorized(): JSX.Element | undefined {
 	const favorites = useAppSelector(getFavorites);
 	const userInfo = useAppSelector(getUserInfo);
 
-	const handleClick = () => {
+	const handleLogOutClick = () => {
 		dispatch(logOut());
 	};
 
@@ -30,7 +30,7 @@ function NavForAuthorized(): JSX.Element | undefined {
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link onClick={handleClick} className="header__nav-link" to='#'>
+				<Link onClick={handleLogOutClick} className="header__nav-link" to='#'>
 					<span className="header__signout">Sign out</span>
 				</Link>
 			</li>

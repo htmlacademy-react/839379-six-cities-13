@@ -1,5 +1,7 @@
 import cn from 'classnames';
 import { Place } from '../../types/place';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type FooterProps = {
 	favorites: Place[];
@@ -12,7 +14,7 @@ function Footer({favorites}: FooterProps):JSX.Element {
 			{'container': favorites.length !== 0}
 		)}
 		>
-			<a className="footer__logo-link" href="main.html">
+			<Link className="footer__logo-link" to={AppRoute.Main}>
 				<img
 					className="footer__logo"
 					src="img/logo.svg"
@@ -20,7 +22,7 @@ function Footer({favorites}: FooterProps):JSX.Element {
 					width={64}
 					height={33}
 				/>
-			</a>
+			</Link>
 		</footer>
 	);
 }

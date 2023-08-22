@@ -23,7 +23,7 @@ function LoginPage(): JSX.Element {
 		dispatch(changeCity(randomCity));
 	};
 
-	const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
+	const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if(loginRef.current !== null && passwordRef.current !== null && passwordRef.current.value.match(regForPassword)) {
@@ -65,7 +65,7 @@ function LoginPage(): JSX.Element {
 				<div className="page__login-container container">
 					<section className="login">
 						<h1 className="login__title">Sign in</h1>
-						<form onSubmit={handleSubmitForm} className="login__form form" action="#" method="post">
+						<form onSubmit={handleFormSubmit} className="login__form form" action="#" method="post">
 							<div className="login__input-wrapper form__input-wrapper">
 								<label className="visually-hidden">E-mail</label>
 								<input

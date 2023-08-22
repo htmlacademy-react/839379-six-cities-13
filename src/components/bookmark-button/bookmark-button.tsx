@@ -29,7 +29,7 @@ const BookmarkButton = ({id, isFavorite, block, size}: BookmarkProps) => {
 	const favoriteDeletingStatus = useAppSelector(getFavoriteDeletingStatus);
 	const [isActive, setActive] = useState(isFavorite);
 
-	const handleClick = () => {
+	const handleButtonClick = () => {
 		if(authorizationStatus !== AuthorizationStatus.Auth) {
 			navigate(AppRoute.Login);
 			return;
@@ -41,7 +41,7 @@ const BookmarkButton = ({id, isFavorite, block, size}: BookmarkProps) => {
 
 	return (
 		<button
-			onClick={handleClick}
+			onClick={handleButtonClick}
 			className={cn(
 				`${block}__bookmark-button`, 'button',
 				{[`${block}__bookmark-button--active`]: isActive}

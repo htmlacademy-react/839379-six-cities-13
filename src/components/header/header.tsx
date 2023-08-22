@@ -8,7 +8,7 @@ import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function Header(): JSX.Element {
 	const {pathname} = useLocation();
-	const authStatus = useAppSelector(getAuthorizationStatus);
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
 	return (
 		<header className="header">
@@ -33,7 +33,7 @@ function Header(): JSX.Element {
 					</div>
 					<nav className="header__nav">
 						<ul className="header__nav-list">
-							{authStatus === AuthorizationStatus.Auth ? <NavForAuthorized/> : <NavForUnauthorized/>}
+							{authorizationStatus === AuthorizationStatus.Auth ? <NavForAuthorized/> : <NavForUnauthorized/>}
 						</ul>
 					</nav>
 				</div>
