@@ -1,5 +1,5 @@
 import {Helmet} from 'react-helmet-async';
-import PlaceCardList from '../../components/place-card/place-card-list';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { Fragment, useEffect } from 'react';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';

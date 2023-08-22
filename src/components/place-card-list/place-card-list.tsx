@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks';
 import { getCurrentPlaces } from '../../store/places-data/selectors';
-import PlaceCard from './place-card';
+import PlaceCard from '../place-card/place-card';
 
 type PlaceCardListProps = {
 	onPlace: (id:string) => void;

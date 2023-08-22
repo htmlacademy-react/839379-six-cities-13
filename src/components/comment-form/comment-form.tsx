@@ -57,7 +57,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<RatingField onChange={handleRatingChange}/>
+			<RatingField onChange={handleRatingChange} rating={rating}/>
 			<textarea
 				onChange={handleTextChange}
 				className="reviews__textarea form__textarea"

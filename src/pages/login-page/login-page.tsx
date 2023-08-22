@@ -1,12 +1,14 @@
 import {Helmet} from 'react-helmet-async';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, cities } from '../../const';
 import { Link, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { FormEvent, useRef } from 'react';
 import { logIn } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { changeCity } from '../../store/places-data/places-data';
+import { toast } from 'react-toastify';
+import { getRandomElement } from '../../utils/utils';
 
 function LoginPage(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -14,16 +16,24 @@ function LoginPage(): JSX.Element {
 	const passwordRef = useRef<null | HTMLInputElement>(null);
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+	const regForPassword = /^[a-z]+\d+|^\d+[a-z]+/gi;
+	const randomCity = getRandomElement(cities);
+
+	const handleCityChange = () => {
+		dispatch(changeCity(randomCity));
+	};
 
 	const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if(loginRef.current !== null && passwordRef.current !== null) {
+		if(loginRef.current !== null && passwordRef.current !== null && passwordRef.current.value.match(regForPassword)) {
 			dispatch(logIn({
 				login: loginRef.current.value,
 				password: passwordRef.current.value
 			}));
 			dispatch(changeCity('Paris'));
+		} else{
+			toast.warn('password entered incorrectly');
 		}
 	};
 
@@ -85,9 +95,9 @@ function LoginPage(): JSX.Element {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							<a className="locations__item-link" href="#">
-								<span>Amsterdam</span>
-							</a>
+							<Link onClick={handleCityChange} className="locations__item-link" to={AppRoute.Main}>
+								<span>{randomCity}</span>
+							</Link>
 						</div>
 					</section>
 				</div>

@@ -5,9 +5,10 @@ import { RequestStatus } from '../../const';
 
 type RatingFieldProps = {
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	rating: string;
 }
 
-function RatingField({onChange} : RatingFieldProps): JSX.Element {
+function RatingField({onChange, rating} : RatingFieldProps): JSX.Element {
 	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
 	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
 
@@ -31,6 +32,7 @@ function RatingField({onChange} : RatingFieldProps): JSX.Element {
 						id={`${value}-stars`}
 						type="radio"
 						disabled={isInputDisabled}
+						checked={rating === value}
 					/>
 					<label
 						htmlFor={`${value}-stars`}

@@ -1,9 +1,9 @@
 import {Helmet} from 'react-helmet-async';
-import CommentForm from '../../components/form/comment-form';
+import CommentForm from '../../components/comment-form/comment-form';
 import Header from '../../components/header/header';
-import ReviewList from '../../components/reviews/review-list';
+import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
-import NearPlacesList from '../../components/near-places/near-places-list';
+import NearPlacesList from '../../components/near-places-list/near-places-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingPage from '../loading-page/loading-page';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
@@ -15,7 +15,8 @@ import { getNearPlaces, getNearPlacesFetchingStatus } from '../../store/near-pla
 import { getCommentsFetchingStatus } from '../../store/comments-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
-import { capitalize, getRandomSlice } from '../../utils/utils';
+import { capitalize, getRandomSlice, pluralIntl } from '../../utils/utils';
+import cn from 'classnames';
 
 function OfferPage(): JSX.Element | undefined {
 	const {id} = useParams();
@@ -28,6 +29,22 @@ function OfferPage(): JSX.Element | undefined {
 	const nearPlaces = useAppSelector(getNearPlaces);
 	const randomNearPlaces = getRandomSlice(3, nearPlaces);
 	const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = currentOffer;
+
+	const getBedroomWord = (count: number) => {
+		const pluralKey = pluralIntl.select(count);
+		if(pluralKey === 'one') {
+			return 'Bedroom';
+		}
+		return 'Bedrooms';
+	};
+
+	const getAdultWord = (count: number) => {
+		const pluralKey = pluralIntl.select(count);
+		if(pluralKey === 'one') {
+			return 'adult';
+		}
+		return 'adults';
+	};
 
 	useEffect(() => {
 		if(id) {
@@ -81,9 +98,9 @@ function OfferPage(): JSX.Element | undefined {
 									</div>
 									<ul className="offer__features">
 										<li className="offer__feature offer__feature--entire">{capitalize(type)}</li>
-										<li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedrooms</li>
+										<li className="offer__feature offer__feature--bedrooms">{bedrooms} {getBedroomWord(bedrooms)}</li>
 										<li className="offer__feature offer__feature--adults">
-											Max {maxAdults} adults
+											Max {maxAdults} {getAdultWord(maxAdults)}
 										</li>
 									</ul>
 									<div className="offer__price">
@@ -101,7 +118,11 @@ function OfferPage(): JSX.Element | undefined {
 									<div className="offer__host">
 										<h2 className="offer__host-title">Meet the host</h2>
 										<div className="offer__host-user user">
-											<div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+											<div className={cn(
+												'offer__avatar-wrapper', 'user__avatar-wrapper',
+												{'offer__avatar-wrapper--pro': host.isPro}
+											)}
+											>
 												<img
 													className="offer__avatar user__avatar"
 													src={host.avatarUrl}
