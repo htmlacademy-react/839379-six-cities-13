@@ -20,9 +20,9 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	const [text, setText] = useState('');
 	const [rating, setRating] = useState('');
 	const formRef = useRef<HTMLFormElement | null>(null);
-	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
-	const isFormDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
-	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
+	const isSuccess = commentSendingStatus === RequestStatus.Success;
+	const isFormDisabled = commentSendingStatus === RequestStatus.Pending || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
+	const isInputDisabled = commentSendingStatus === RequestStatus.Pending;
 
 	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(event.target.value);
@@ -32,7 +32,7 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 		setRating(event.target.value);
 	};
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const form = event.currentTarget as CommentField;
 		if(id) {
@@ -53,11 +53,11 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	}, [isSuccess]);
 
 	return (
-		<form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post" ref={formRef}>
+		<form onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post" ref={formRef}>
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<RatingField onChange={handleRatingChange}/>
+			<RatingField onChange={handleRatingChange} rating={rating}/>
 			<textarea
 				onChange={handleTextChange}
 				className="reviews__textarea form__textarea"

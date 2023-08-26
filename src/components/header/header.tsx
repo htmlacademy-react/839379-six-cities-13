@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import cn from 'classnames';
+import className from 'classnames';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import { useAppSelector } from '../../hooks';
 import NavForAuthorized from './nav-for-authorized';
@@ -8,7 +8,7 @@ import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function Header(): JSX.Element {
 	const {pathname} = useLocation();
-	const authStatus = useAppSelector(getAuthorizationStatus);
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
 	return (
 		<header className="header">
@@ -16,7 +16,7 @@ function Header(): JSX.Element {
 				<div className="header__wrapper">
 					<div className="header__left">
 						<Link
-							className={cn(
+							className={className(
 								'header__logo-link',
 								{'header__logo-link--active': pathname === AppRoute.Main}
 							)}
@@ -33,7 +33,7 @@ function Header(): JSX.Element {
 					</div>
 					<nav className="header__nav">
 						<ul className="header__nav-list">
-							{authStatus === AuthorizationStatus.Auth ? <NavForAuthorized/> : <NavForUnauthorized/>}
+							{authorizationStatus === AuthorizationStatus.Auth ? <NavForAuthorized/> : <NavForUnauthorized/>}
 						</ul>
 					</nav>
 				</div>

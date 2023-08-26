@@ -5,13 +5,14 @@ import { RequestStatus } from '../../const';
 
 type RatingFieldProps = {
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	rating: string;
 }
 
-function RatingField({onChange} : RatingFieldProps): JSX.Element {
+function RatingField({onChange, rating} : RatingFieldProps): JSX.Element {
 	const commentSendingStatus = useAppSelector(getCommentsSendingStatus);
-	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
+	const isInputDisabled = commentSendingStatus === RequestStatus.Pending;
 
-	const ratingValues = {
+	const ratingValue = {
 		'1': 'terribly',
 		'2': 'badly',
 		'3': 'not bad',
@@ -21,7 +22,7 @@ function RatingField({onChange} : RatingFieldProps): JSX.Element {
 
 	return (
 		<div className="reviews__rating-form form__rating">
-			{Object.entries(ratingValues).reverse().map(([value, title]) => (
+			{Object.entries(ratingValue).reverse().map(([value, title]) => (
 				<Fragment key={value}>
 					<input
 						onChange={onChange}
@@ -31,6 +32,7 @@ function RatingField({onChange} : RatingFieldProps): JSX.Element {
 						id={`${value}-stars`}
 						type="radio"
 						disabled={isInputDisabled}
+						checked={rating === value}
 					/>
 					<label
 						htmlFor={`${value}-stars`}

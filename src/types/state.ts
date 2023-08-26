@@ -15,7 +15,6 @@ export type UserData = {
 	user: UserInfo;
 	authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
 	checkAuthStatus: typeof RequestStatus[keyof typeof RequestStatus];
-	error: string | null;
 };
 
 export type PlacesData = {
@@ -24,26 +23,22 @@ export type PlacesData = {
 	currentPlaces: Place[];
 	sort: keyof typeof SortingType;
 	placesFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
-	error: string | null;
 };
 
 export type OfferData = {
 	currentOffer: Offer;
 	offerFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
-	error: string | null;
 }
 
 export type CommentsData = {
 	commentsFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	comments: Comments;
 	commentSendingStatus: typeof RequestStatus[keyof typeof RequestStatus];
-	error: string | null;
 }
 
 export type NearPlacesData = {
 	nearPlacesFetchingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	nearPlaces: Place[];
-	error: string | null;
 }
 
 export type FavoritesData = {
@@ -51,5 +46,4 @@ export type FavoritesData = {
 	favoriteAddingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	favoriteDeletingStatus: typeof RequestStatus[keyof typeof RequestStatus];
 	favorites: Place[];
-	error: string | null;
 }

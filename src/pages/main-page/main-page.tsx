@@ -1,5 +1,5 @@
 import {Helmet} from 'react-helmet-async';
-import PlaceCardList from '../../components/place-card/place-card-list';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { Fragment, useEffect } from 'react';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
@@ -12,7 +12,7 @@ import { RequestStatus } from '../../const';
 import useActivePlace from '../../hooks/use-active-place';
 import { getCity, getCurrentPlaces, getPlacesFetchingStatus } from '../../store/places-data/selectors';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
-import cn from 'classnames';
+import className from 'classnames';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { pluralIntl } from '../../utils/utils';
 
@@ -38,12 +38,12 @@ function MainPage(): JSX.Element {
 
 	return (
 		<Fragment>
-			{placesFetchingStatus === RequestStatus.PENDING && <LoadingPage/>}
-			{placesFetchingStatus === RequestStatus.SUCCESS && places && (
+			{placesFetchingStatus === RequestStatus.Pending && <LoadingPage/>}
+			{placesFetchingStatus === RequestStatus.Success && places && (
 				<div className="page page--gray page--main">
 					<Helmet><title>6 cities. Main</title></Helmet>
 					<Header/>
-					<main className={cn(
+					<main className={className(
 						'page__main page__main--index',
 						{'page__main--index-empty': places.length === 0}
 					)}

@@ -16,8 +16,7 @@ const initialState: PlacesData = {
 	sort: 'Popular',
 	places: [],
 	currentPlaces: [],
-	placesFetchingStatus: RequestStatus.IDLE,
-	error: null,
+	placesFetchingStatus: RequestStatus.Idle,
 };
 
 export const placesData = createSlice({
@@ -36,15 +35,12 @@ export const placesData = createSlice({
 	extraReducers(builder) {
 		builder
 			.addCase(fetchOffers.pending, (state) => {
-				state.placesFetchingStatus = RequestStatus.PENDING;
+				state.placesFetchingStatus = RequestStatus.Pending;
 			})
 			.addCase(fetchOffers.fulfilled, (state, action) => {
-				state.placesFetchingStatus = RequestStatus.SUCCESS;
+				state.placesFetchingStatus = RequestStatus.Success;
 				state.places = action.payload;
 				state.currentPlaces = getPlaces(state.places, state.city);
-			})
-			.addCase(fetchOffers.rejected, (state) => {
-				state.placesFetchingStatus = RequestStatus.ERROR;
 			});
 	}
 });

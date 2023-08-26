@@ -22,7 +22,6 @@ function ReviewList(): JSX.Element {
 		.sort((a,b) => Date.parse(b.date) - Date.parse(a.date)).slice(MIN_COMMENTS_COUNT, MAX_COMMENTS_COUNT);
 
 	return (
-
 		<Fragment>
 			<h2 className="reviews__title">
 				{getReviewWord(comments.length)} · <span className="reviews__amount">{comments.length}</span>

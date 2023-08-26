@@ -5,10 +5,9 @@ import { CommentsData } from '../../types/state';
 import { fetchComments, sendComment } from '../api-actions';
 
 const initialState: CommentsData = {
-	commentsFetchingStatus: RequestStatus.IDLE,
+	commentsFetchingStatus: RequestStatus.Idle,
 	comments: [],
-	commentSendingStatus: RequestStatus.IDLE,
-	error: null
+	commentSendingStatus: RequestStatus.Idle,
 };
 
 export const commentsData = createSlice({
@@ -18,24 +17,21 @@ export const commentsData = createSlice({
 	extraReducers(builder) {
 		builder
 			.addCase(fetchComments.pending, (state) => {
-				state.commentsFetchingStatus = RequestStatus.PENDING;
+				state.commentsFetchingStatus = RequestStatus.Pending;
 			})
 			.addCase(fetchComments.fulfilled, (state, action) => {
-				state.commentsFetchingStatus = RequestStatus.SUCCESS;
+				state.commentsFetchingStatus = RequestStatus.Success;
 				state.comments = action.payload;
 			})
-			.addCase(fetchComments.rejected, (state) => {
-				state.commentsFetchingStatus = RequestStatus.ERROR;
-			})
 			.addCase(sendComment.pending, (state) => {
-				state.commentSendingStatus = RequestStatus.PENDING;
+				state.commentSendingStatus = RequestStatus.Pending;
 			})
 			.addCase(sendComment.fulfilled, (state, action) => {
-				state.commentSendingStatus = RequestStatus.SUCCESS;
+				state.commentSendingStatus = RequestStatus.Success;
 				state.comments.push(action.payload);
 			})
 			.addCase(sendComment.rejected, (state) => {
-				state.commentSendingStatus = RequestStatus.ERROR;
+				state.commentSendingStatus = RequestStatus.Error;
 			});
 	},
 });

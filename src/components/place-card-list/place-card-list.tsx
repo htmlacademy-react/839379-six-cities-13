@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks';
 import { getCurrentPlaces } from '../../store/places-data/selectors';
-import PlaceCard from './place-card';
+import PlaceCard from '../place-card/place-card';
 
 type PlaceCardListProps = {
 	onPlace: (id:string) => void;
@@ -12,7 +12,7 @@ function PlaceCardList({onPlace, outPlace}: PlaceCardListProps): JSX.Element {
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
-			{places.map((place) => <PlaceCard className='cities' key={place.id} info={place} width={260} height={200} onPlace={onPlace} outPlace={outPlace}/>)}
+			{places.map((place) => <PlaceCard blockName='cities' key={place.id} info={place} width={260} height={200} onPlace={onPlace} outPlace={outPlace}/>)}
 		</div>
 	);
 }

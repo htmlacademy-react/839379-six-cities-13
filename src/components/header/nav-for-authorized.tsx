@@ -11,7 +11,7 @@ function NavForAuthorized(): JSX.Element | undefined {
 	const favorites = useAppSelector(getFavorites);
 	const userInfo = useAppSelector(getUserInfo);
 
-	const handleClick = () => {
+	const handleLogOutClick = () => {
 		dispatch(logOut());
 	};
 
@@ -22,7 +22,7 @@ function NavForAuthorized(): JSX.Element | undefined {
 					className="header__nav-link header__nav-link--profile"
 					to={AppRoute.Favorites}
 				>
-					<div className="header__avatar-wrapper user__avatar-wrapper"></div>
+					<div className="header__avatar-wrapper user__avatar-wrapper" style={{'backgroundImage': `url(${userInfo.avatarUrl})`, 'borderRadius': '50%'}}></div>
 					<span className="header__user-name user__name">
 						{userInfo.email}
 					</span>
@@ -30,7 +30,7 @@ function NavForAuthorized(): JSX.Element | undefined {
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link onClick={handleClick} className="header__nav-link" to='#'>
+				<Link onClick={handleLogOutClick} className="header__nav-link" to='#'>
 					<span className="header__signout">Sign out</span>
 				</Link>
 			</li>
