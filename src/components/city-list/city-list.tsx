@@ -1,12 +1,11 @@
 import {cities} from '../../const';
-import cn from 'classnames';
+import className from 'classnames';
 import { Link } from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import { changeCity } from '../../store/places-data/places-data';
 import { getCity } from '../../store/places-data/selectors';
 
 function CityList():JSX.Element {
-
 	const dispatch = useAppDispatch();
 	const currentCity = useAppSelector(getCity);
 
@@ -18,7 +17,7 @@ function CityList():JSX.Element {
 						<li key={city} className="locations__item">
 							<Link
 								onClick={() => dispatch(changeCity(city))}
-								className={cn(
+								className={className(
 									'locations__item-link tabs__item',
 									{'tabs__item--active': city === currentCity}
 								)}

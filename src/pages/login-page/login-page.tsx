@@ -10,13 +10,14 @@ import { changeCity } from '../../store/places-data/places-data';
 import { toast } from 'react-toastify';
 import { getRandomElement } from '../../utils/utils';
 
+const PASSWORD_REGEXP = /^[a-z]+\d+|^\d+[a-z]+/gi;
+
 function LoginPage(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const loginRef = useRef<null | HTMLInputElement>(null);
 	const passwordRef = useRef<null | HTMLInputElement>(null);
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-	const regForPassword = /^[a-z]+\d+|^\d+[a-z]+/gi;
 	const randomCity = getRandomElement(cities);
 
 	const handleCityChange = () => {
@@ -26,7 +27,7 @@ function LoginPage(): JSX.Element {
 	const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if(loginRef.current !== null && passwordRef.current !== null && passwordRef.current.value.match(regForPassword)) {
+		if(loginRef.current !== null && passwordRef.current !== null && passwordRef.current.value.match(PASSWORD_REGEXP)) {
 			dispatch(logIn({
 				login: loginRef.current.value,
 				password: passwordRef.current.value

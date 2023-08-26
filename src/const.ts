@@ -2,10 +2,6 @@ import { Place } from './types/place';
 
 const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-const BASE_URL = 'https://13.design.pages.academy/six-cities';
-
-const TIMEOUT = 5000;
-
 const NameSpace = {
 	User: 'USER',
 	Places: 'PLACES',
@@ -38,10 +34,10 @@ const AuthorizationStatus = {
 } as const;
 
 const RequestStatus = {
-	IDLE: 'Idle',
-	PENDING: 'Pending',
-	SUCCESS: 'Success',
-	ERROR: 'Error',
+	Idle: 'Idle',
+	Pending: 'Pending',
+	Success: 'Success',
+	Error: 'Error',
 } as const;
 
 const SortingType = {
@@ -60,4 +56,4 @@ const SortCallbackMap: {
 	Rating: (a: Place, b: Place) => b.rating - a.rating
 };
 
-export {cities, NameSpace, AppRoute, APIRoute, RequestStatus, AuthorizationStatus, SortingType, SortCallbackMap, BASE_URL, TIMEOUT};
+export {cities, NameSpace, AppRoute, APIRoute, RequestStatus, AuthorizationStatus, SortingType, SortCallbackMap};

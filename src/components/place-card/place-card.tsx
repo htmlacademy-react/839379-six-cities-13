@@ -3,10 +3,10 @@ import {AppRoute} from '../../const';
 import {Place} from '../../types/place';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import { capitalize } from '../../utils/utils';
-import cn from 'classnames';
+import className from 'classnames';
 
 type PlaceCardProps = {
-	className: string;
+	blockName: string;
 	info: Place;
 	width: number;
 	height: number;
@@ -14,17 +14,17 @@ type PlaceCardProps = {
 	outPlace?: () => void;
 }
 
-function PlaceCard({className, info, width, height, onPlace, outPlace}:PlaceCardProps): JSX.Element {
+function PlaceCard({blockName, info, width, height, onPlace, outPlace}:PlaceCardProps): JSX.Element {
 	const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = info;
 
 	return (
 		<article
 			onMouseOver={onPlace ? () => onPlace(id) : undefined}
 			onMouseOut={outPlace ? () => outPlace() : undefined}
-			className={`${className}__card place-card`}
+			className={`${blockName}__card place-card`}
 		>
 			{isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-			<div className={`${className}__image-wrapper place-card__image-wrapper`}>
+			<div className={`${blockName}__image-wrapper place-card__image-wrapper`}>
 				<Link to={`${AppRoute.Offer}/${id}`}>
 					<img
 						className="place-card__image"
@@ -35,9 +35,9 @@ function PlaceCard({className, info, width, height, onPlace, outPlace}:PlaceCard
 					/>
 				</Link>
 			</div>
-			<div className={cn(
+			<div className={className(
 				'place-card__info',
-				{'favorites__card-info': className === 'favorites'}
+				{'favorites__card-info': blockName === 'favorites'}
 			)}
 			>
 				<div className="place-card__price-wrapper">

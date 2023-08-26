@@ -1,9 +1,11 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse} from 'axios';
-import {BASE_URL, TIMEOUT} from '../const';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
 import { ErrorMessage } from '../types/error';
 import { toast } from 'react-toastify';
+
+const BASE_URL = 'https://13.design.pages.academy/six-cities';
+const TIMEOUT = 5000;
 
 const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,
@@ -12,9 +14,9 @@ const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.CONFLICT]: true,
 };
 
-export const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
-export const createAPI = (): AxiosInstance => {
+const createAPI = (): AxiosInstance => {
 	const api = axios.create({
 		baseURL: BASE_URL,
 		timeout: TIMEOUT
@@ -44,3 +46,5 @@ export const createAPI = (): AxiosInstance => {
 
 	return api;
 };
+
+export {createAPI};

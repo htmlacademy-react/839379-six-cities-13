@@ -20,9 +20,9 @@ function CommentForm({id}: CommentFormProps): JSX.Element {
 	const [text, setText] = useState('');
 	const [rating, setRating] = useState('');
 	const formRef = useRef<HTMLFormElement | null>(null);
-	const isSuccess = commentSendingStatus === RequestStatus.SUCCESS;
-	const isFormDisabled = commentSendingStatus === RequestStatus.PENDING || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
-	const isInputDisabled = commentSendingStatus === RequestStatus.PENDING;
+	const isSuccess = commentSendingStatus === RequestStatus.Success;
+	const isFormDisabled = commentSendingStatus === RequestStatus.Pending || text.length < MIN_TEXT_LENGTH || text.length > MAX_TEXT_LENGTH || rating === '';
+	const isInputDisabled = commentSendingStatus === RequestStatus.Pending;
 
 	const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(event.target.value);

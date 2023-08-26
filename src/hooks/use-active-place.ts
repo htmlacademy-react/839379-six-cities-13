@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Place } from '../types/place';
 
 type ResultActivePlace = [Place | undefined, (id: string) => void, () => void]
+
 const useActivePlace = (places: Place[]): ResultActivePlace => {
 	const [activePlace, setActivePlace] = useState<Place | undefined>(undefined);
 

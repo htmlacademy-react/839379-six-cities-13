@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import className from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
@@ -42,12 +42,12 @@ const BookmarkButton = ({id, isFavorite, block, size}: BookmarkProps) => {
 	return (
 		<button
 			onClick={handleButtonClick}
-			className={cn(
+			className={className(
 				`${block}__bookmark-button`, 'button',
 				{[`${block}__bookmark-button--active`]: isActive}
 			)}
 			type="button"
-			disabled={favoriteAddingStatus === RequestStatus.PENDING || favoriteDeletingStatus === RequestStatus.PENDING }
+			disabled={favoriteAddingStatus === RequestStatus.Pending || favoriteDeletingStatus === RequestStatus.Pending }
 		>
 			<svg
 				className={`${block}__bookmark-icon`} {...sizeMap[size]}

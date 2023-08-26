@@ -3,7 +3,7 @@ import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
 import { getFavorites, getFavoritesFetchingStatus } from '../../store/favorites-data/selectors';
 import EmptyFavoritesList from '../../components/empty-favorites-list/empty-favorites-list';
-import cn from 'classnames';
+import className from 'classnames';
 import PlaceCard from '../../components/place-card/place-card';
 import Footer from '../../components/footer/footer';
 import { RequestStatus } from '../../const';
@@ -14,12 +14,12 @@ function FavoritePage(): JSX.Element {
 	const favoritePlaces = useAppSelector(getFavorites);
 	const uniqCities = [...new Set(favoritePlaces.map((place) => place.city.name))];
 
-	if(favoritesFetchingStatus === RequestStatus.PENDING) {
+	if(favoritesFetchingStatus === RequestStatus.Pending) {
 		return <LoadingPage/>;
 	}
 
 	return (
-		<div className={cn(
+		<div className={className(
 			'page',
 			{'page--favorites-empty': favoritePlaces.length === 0}
 		)}
@@ -48,7 +48,7 @@ function FavoritePage(): JSX.Element {
 												{favoritePlaces
 													.filter((place) => place.city.name === city)
 													.map((place) => (
-														<PlaceCard key={place.id} className='favorites' info={place} width={150} height={110}/>
+														<PlaceCard key={place.id} blockName='favorites' info={place} width={150} height={110}/>
 													))}
 											</div>
 										</li>

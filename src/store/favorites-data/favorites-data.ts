@@ -35,11 +35,10 @@ const changeFavorites = (state: FavoritesData, offer: Offer):void => {
 };
 
 const initialState: FavoritesData = {
-	favoritesFetchingStatus: RequestStatus.IDLE,
-	favoriteAddingStatus: RequestStatus.IDLE,
-	favoriteDeletingStatus: RequestStatus.IDLE,
+	favoritesFetchingStatus: RequestStatus.Idle,
+	favoriteAddingStatus: RequestStatus.Idle,
+	favoriteDeletingStatus: RequestStatus.Idle,
 	favorites: [],
-	error: null
 };
 
 export const favoritesData = createSlice({
@@ -49,34 +48,25 @@ export const favoritesData = createSlice({
 	extraReducers(builder) {
 		builder
 			.addCase(fetchFavorites.pending, (state) => {
-				state.favoritesFetchingStatus = RequestStatus.PENDING;
+				state.favoritesFetchingStatus = RequestStatus.Pending;
 			})
 			.addCase(fetchFavorites.fulfilled, (state, action) => {
-				state.favoritesFetchingStatus = RequestStatus.SUCCESS;
+				state.favoritesFetchingStatus = RequestStatus.Success;
 				state.favorites = action.payload;
 			})
-			.addCase(fetchFavorites.rejected, (state) => {
-				state.favoritesFetchingStatus = RequestStatus.ERROR;
-			})
 			.addCase(addFavorite.pending, (state) => {
-				state.favoriteAddingStatus = RequestStatus.PENDING;
+				state.favoriteAddingStatus = RequestStatus.Pending;
 			})
 			.addCase(addFavorite.fulfilled, (state, action) => {
-				state.favoriteAddingStatus = RequestStatus.SUCCESS;
+				state.favoriteAddingStatus = RequestStatus.Success;
 				state.favorites.push(serializeOffer(action.payload));
 			})
-			.addCase(addFavorite.rejected, (state) => {
-				state.favoriteAddingStatus = RequestStatus.ERROR;
-			})
 			.addCase(deleteFavorite.pending, (state) => {
-				state.favoriteDeletingStatus = RequestStatus.PENDING;
+				state.favoriteDeletingStatus = RequestStatus.Pending;
 			})
 			.addCase(deleteFavorite.fulfilled, (state, action) => {
-				state.favoriteDeletingStatus = RequestStatus.SUCCESS;
+				state.favoriteDeletingStatus = RequestStatus.Success;
 				changeFavorites(state, action.payload);
-			})
-			.addCase(deleteFavorite.rejected, (state) => {
-				state.favoriteDeletingStatus = RequestStatus.ERROR;
 			});
 	},
 });

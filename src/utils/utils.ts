@@ -1,14 +1,13 @@
-
-export const getRandomInteger = (min:number, max:number) => {
+const getRandomInteger = (min:number, max:number) => {
 	const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
 	const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
 	const result = Math.random() * (upper - lower + 1) + lower;
 	return Math.floor(result);
 };
 
-export const getRandomElement = <El>(elements: El[] | readonly El[]) => elements[getRandomInteger(0, elements.length - 1)];
+const getRandomElement = <El>(elements: El[] | readonly El[]) => elements[getRandomInteger(0, elements.length - 1)];
 
-export const getRandomSlice = <El>(size:number, elements: El[]) => {
+const getRandomSlice = <El>(size:number, elements: El[]) => {
 	if(size > elements.length) {
 		return elements;
 	}
@@ -24,7 +23,7 @@ export const getRandomSlice = <El>(size:number, elements: El[]) => {
 	return result;
 };
 
-export const capitalize = (word: string) => {
+const capitalize = (word: string) => {
 	if (!word) {
 		return word;
 	}
@@ -33,3 +32,5 @@ export const capitalize = (word: string) => {
 };
 
 export const pluralIntl = new Intl.PluralRules('en-US');
+
+export {getRandomInteger, getRandomElement, getRandomSlice, capitalize};

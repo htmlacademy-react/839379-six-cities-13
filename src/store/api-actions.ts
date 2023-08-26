@@ -16,7 +16,7 @@ export const fetchOffer = createAsyncThunk<Offer | ErrorMessage, string, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'fetchOffer',
+	'offer/fetchOffer',
 	async (id, {extra: api}) => {
 		const {data} = await api.get<Offer | ErrorMessage>(`${APIRoute.Offers}/${id}`);
 
@@ -29,7 +29,7 @@ export const fetchComments = createAsyncThunk<Comments, string, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'fetchComments',
+	'comments/fetchComments',
 	async (id, {extra: api}) => {
 		const {data} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
 
@@ -42,7 +42,7 @@ export const fetchNearPlaces = createAsyncThunk<Place[], string, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'fetchNearPlaces',
+	'offers/fetchNearPlaces',
 	async (id, {extra: api}) => {
 		const {data} = await api.get<Place[]>(`${APIRoute.Offers}/${id}/nearby`);
 
@@ -55,7 +55,7 @@ export const fetchOffers = createAsyncThunk<Place[], undefined, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'fetchOffers',
+	'offers/ fetchOffers',
 	async(_arg, {extra: api}) => {
 		const {data} = await api.get<Place[]>(APIRoute.Offers);
 
@@ -68,7 +68,7 @@ export const checkAuthStatus = createAsyncThunk<UserInfo, undefined, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'checkAuth',
+	'user/checkAuth',
 	async(_arg, {extra: api}) => {
 		const {data} = await api.get<UserInfo>(APIRoute.Login);
 
@@ -81,7 +81,7 @@ export const logIn = createAsyncThunk<UserInfo, AuthData, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'login',
+	'user/login',
 	async({login: email, password}, {extra: api}) => {
 		const {data} = await api.post<UserInfo>(APIRoute.Login, {email, password});
 		saveToken(data.token);
@@ -95,7 +95,7 @@ export const logOut = createAsyncThunk<void, undefined, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'logout',
+	'user/logout',
 	async(_arg, {extra: api}) => {
 		await api.delete(APIRoute.Logout);
 		dropToken();
@@ -108,7 +108,7 @@ export const sendComment = createAsyncThunk<Comment, NewComment, {
 	extra: AxiosInstance;
 }
 >(
-	'sendComment',
+	'comments/sendComment',
 	async ({id, comment, rating},{extra: api}) => {
 		const {data} = await api.post<Comment>(`${APIRoute.Comments}/${id}`, {comment, rating});
 
@@ -121,7 +121,7 @@ export const fetchFavorites = createAsyncThunk<Place[], undefined, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'fetchFavorites',
+	'favorite/fetchFavorites',
 	async(_arg, {extra: api}) => {
 		const {data} = await api.get<Place[]>(APIRoute.Favorites);
 
@@ -134,7 +134,7 @@ export const addFavorite = createAsyncThunk<Offer, string, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'addFavorite',
+	'favorite/addFavorite',
 	async(id, {extra: api}) => {
 		const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/1`);
 
@@ -147,7 +147,7 @@ export const deleteFavorite = createAsyncThunk<Offer, string, {
 	state: State;
 	extra: AxiosInstance;
 }>(
-	'deleteFavorite',
+	'favorite/deleteFavorite',
 	async(id, {extra: api}) => {
 		const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/0`);
 

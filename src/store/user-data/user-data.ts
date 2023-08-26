@@ -6,9 +6,8 @@ import { UserInfo } from '../../types/user-data';
 
 const initialState: UserData = {
 	authorizationStatus: AuthorizationStatus.Unknown,
-	checkAuthStatus: RequestStatus.IDLE,
+	checkAuthStatus: RequestStatus.Idle,
 	user: {} as UserInfo,
-	error: null
 };
 
 export const userData = createSlice({
@@ -19,12 +18,12 @@ export const userData = createSlice({
 		builder
 			.addCase(checkAuthStatus.fulfilled, (state, action) => {
 				state.authorizationStatus = AuthorizationStatus.Auth;
-				state.checkAuthStatus = RequestStatus.SUCCESS;
+				state.checkAuthStatus = RequestStatus.Success;
 				state.user = action.payload;
 			})
 			.addCase(checkAuthStatus.rejected, (state) => {
 				state.authorizationStatus = AuthorizationStatus.NoAuth;
-				state.checkAuthStatus = RequestStatus.ERROR;
+				state.checkAuthStatus = RequestStatus.Error;
 			})
 			.addCase(logIn.fulfilled, (state, action) => {
 				state.authorizationStatus = AuthorizationStatus.Auth;

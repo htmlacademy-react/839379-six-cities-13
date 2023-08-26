@@ -1,5 +1,5 @@
 import {SortingType} from '../../const';
-import cn from 'classnames';
+import className from 'classnames';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import { changeSort } from '../../store/places-data/places-data';
 import { useState } from 'react';
@@ -20,7 +20,7 @@ function Sorting(): JSX.Element {
 					<use xlinkHref="#icon-arrow-select" />
 				</svg>
 			</span>
-			<ul className={cn(
+			<ul className={className(
 				'places__options places__options--custom',
 				{'places__options--opened': isActiveSort}
 			)}
@@ -32,7 +32,7 @@ function Sorting(): JSX.Element {
 							setActiveSort((prevState) => !prevState);
 						}}
 						key={sortType}
-						className={cn(
+						className={className(
 							'places__option',
 							{'places__option--active': sortType === sort}
 						)}

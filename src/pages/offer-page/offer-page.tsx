@@ -16,7 +16,7 @@ import { getCommentsFetchingStatus } from '../../store/comments-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 import { capitalize, getRandomSlice, pluralIntl } from '../../utils/utils';
-import cn from 'classnames';
+import className from 'classnames';
 
 function OfferPage(): JSX.Element | undefined {
 	const {id} = useParams();
@@ -56,14 +56,14 @@ function OfferPage(): JSX.Element | undefined {
 		}
 	}, [authorizationStatus, id, dispatch]);
 
-	if(offerFetchingStatus === RequestStatus.ERROR) {
+	if(offerFetchingStatus === RequestStatus.Error) {
 		return <Navigate to={AppRoute.NotFound}/>;
 	}
 
 	return (
 		<Fragment>
-			{(offerFetchingStatus === RequestStatus.PENDING || commentFetchingStatus === RequestStatus.PENDING || nearPlacesFetchingStatus === RequestStatus.PENDING) && <LoadingPage/>}
-			{offerFetchingStatus === RequestStatus.SUCCESS && (
+			{(offerFetchingStatus === RequestStatus.Pending || commentFetchingStatus === RequestStatus.Pending || nearPlacesFetchingStatus === RequestStatus.Pending) && <LoadingPage/>}
+			{offerFetchingStatus === RequestStatus.Success && (
 				<div className="page">
 					<Helmet><title>6 cities. Offer</title></Helmet>
 					<Header/>
@@ -118,7 +118,7 @@ function OfferPage(): JSX.Element | undefined {
 									<div className="offer__host">
 										<h2 className="offer__host-title">Meet the host</h2>
 										<div className="offer__host-user user">
-											<div className={cn(
+											<div className={className(
 												'offer__avatar-wrapper', 'user__avatar-wrapper',
 												{'offer__avatar-wrapper--pro': host.isPro}
 											)}
@@ -139,13 +139,13 @@ function OfferPage(): JSX.Element | undefined {
 										</div>
 									</div>
 									<section className="offer__reviews reviews">
-										{commentFetchingStatus === RequestStatus.SUCCESS && <ReviewList/>}
+										{commentFetchingStatus === RequestStatus.Success && <ReviewList/>}
 										{authorizationStatus === AuthorizationStatus.Auth && <CommentForm id={id}/>}
 									</section>
 								</div>
 							</div>
 							<section className="offer__map map">
-								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && randomNearPlaces && currentOffer && (
+								{nearPlacesFetchingStatus === RequestStatus.Success && randomNearPlaces && currentOffer && (
 									<Map places={[...randomNearPlaces, currentOffer]} activePlace={currentOffer}/>
 								)}
 							</section>
@@ -155,7 +155,7 @@ function OfferPage(): JSX.Element | undefined {
 								<h2 className="near-places__title">
 									Other places in the neighbourhood
 								</h2>
-								{nearPlacesFetchingStatus === RequestStatus.SUCCESS && nearPlaces && (
+								{nearPlacesFetchingStatus === RequestStatus.Success && nearPlaces && (
 									<NearPlacesList places={randomNearPlaces}/>
 								)}
 							</section>

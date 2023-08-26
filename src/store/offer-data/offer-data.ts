@@ -4,12 +4,10 @@ import { OfferData } from '../../types/state';
 import { Offer } from '../../types/offer';
 import { RequestStatus } from '../../const';
 import { fetchOffer } from '../api-actions';
-// import { ErrorMessage } from '../../types/error';
 
 const initialState: OfferData = {
 	currentOffer: {} as Offer,
-	offerFetchingStatus: RequestStatus.IDLE,
-	error: null,
+	offerFetchingStatus: RequestStatus.Idle,
 };
 
 export const offerData = createSlice({
@@ -19,14 +17,14 @@ export const offerData = createSlice({
 	extraReducers(builder) {
 		builder
 			.addCase(fetchOffer.pending, (state) => {
-				state.offerFetchingStatus = RequestStatus.PENDING;
+				state.offerFetchingStatus = RequestStatus.Pending;
 			})
 			.addCase(fetchOffer.fulfilled, (state, action) => {
-				state.offerFetchingStatus = RequestStatus.SUCCESS;
+				state.offerFetchingStatus = RequestStatus.Success;
 				state.currentOffer = action.payload as Offer;
 			})
 			.addCase(fetchOffer.rejected, (state) => {
-				state.offerFetchingStatus = RequestStatus.ERROR;
+				state.offerFetchingStatus = RequestStatus.Error;
 			});
 	}
 });

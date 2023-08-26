@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import className from 'classnames';
 import { Place } from '../../types/place';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
@@ -9,7 +9,7 @@ type FooterProps = {
 
 function Footer({favorites}: FooterProps):JSX.Element {
 	return (
-		<footer className={cn(
+		<footer className={className(
 			'footer',
 			{'container': favorites.length !== 0}
 		)}

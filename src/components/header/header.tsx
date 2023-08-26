@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import cn from 'classnames';
+import className from 'classnames';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import { useAppSelector } from '../../hooks';
 import NavForAuthorized from './nav-for-authorized';
@@ -16,7 +16,7 @@ function Header(): JSX.Element {
 				<div className="header__wrapper">
 					<div className="header__left">
 						<Link
-							className={cn(
+							className={className(
 								'header__logo-link',
 								{'header__logo-link--active': pathname === AppRoute.Main}
 							)}

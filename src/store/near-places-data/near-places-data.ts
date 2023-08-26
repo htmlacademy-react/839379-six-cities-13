@@ -4,9 +4,8 @@ import { NearPlacesData } from '../../types/state';
 import { fetchNearPlaces } from '../api-actions';
 
 const initialState: NearPlacesData = {
-	nearPlacesFetchingStatus: RequestStatus.IDLE,
+	nearPlacesFetchingStatus: RequestStatus.Idle,
 	nearPlaces: [],
-	error: null,
 };
 
 export const nearPlacesData = createSlice({
@@ -16,14 +15,11 @@ export const nearPlacesData = createSlice({
 	extraReducers(builder) {
 		builder
 			.addCase(fetchNearPlaces.pending, (state) => {
-				state.nearPlacesFetchingStatus = RequestStatus.PENDING;
+				state.nearPlacesFetchingStatus = RequestStatus.Pending;
 			})
 			.addCase(fetchNearPlaces.fulfilled, (state, action) => {
-				state.nearPlacesFetchingStatus = RequestStatus.SUCCESS;
+				state.nearPlacesFetchingStatus = RequestStatus.Success;
 				state.nearPlaces = action.payload;
-			})
-			.addCase(fetchNearPlaces.rejected, (state) => {
-				state.nearPlacesFetchingStatus = RequestStatus.ERROR;
 			});
 	},
 });
