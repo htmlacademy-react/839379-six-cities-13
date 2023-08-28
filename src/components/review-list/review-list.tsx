@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import Review from './review';
+import Review from '../review/review';
 import { useAppSelector } from '../../hooks';
 import { getComments } from '../../store/comments-data/selectors';
 import { pluralIntl } from '../../utils/utils';

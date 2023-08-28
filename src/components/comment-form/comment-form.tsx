@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import RatingField from './rating-field';
+import RatingField from '../rating-field/rating-field';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendComment } from '../../store/api-actions';
 import { CommentField } from '../../types/comments';
