@@ -2,8 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import className from 'classnames';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import { useAppSelector } from '../../hooks';
-import NavForAuthorized from './nav-for-authorized';
-import NavForUnauthorized from './nav-for-unauthorized';
+import NavForAuthorized from '../nav-for-authorized/nav-for-authorized';
+import NavForUnauthorized from '../nav-for-unauthorized/nav-for-unauthorized';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function Header(): JSX.Element {
